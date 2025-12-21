@@ -3,6 +3,7 @@ PROGRAM day_1
 
     INTEGER :: i
 
+    CHARACTER(LEN=*), PARAMETER :: file = "day_1_practice_input.txt"
     INTEGER, PARAMETER :: file_length = 10
     INTEGER, PARAMETER :: instruction_length = 4
     INTEGER, PARAMETER :: direction_length = 1
@@ -12,7 +13,6 @@ PROGRAM day_1
     INTEGER, DIMENSION(file_length) :: magnitudes
     CHARACTER(LEN=instruction_length) :: instruction
 
-    CHARACTER(LEN=*), PARAMETER :: file = "day_1_practice_input.txt"
 
     OPEN(1, FILE=file, STATUS="OLD", ACTION="READ")
         DO i=1, file_length
