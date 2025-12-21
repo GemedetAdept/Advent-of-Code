@@ -14,11 +14,11 @@ CONTAINS
         INTEGER :: in_instruction_len
         CHARACTER(LEN=in_instruction_len), DIMENSION(in_file_len) :: out_instructions
 
-    OPEN(1, FILE=in_file, STATUS="OLD", ACTION="READ")
-        DO i=1, in_file_len
-            READ(1,*) out_instructions(i)
-        END DO
-    CLOSE(1)
+        OPEN(1, FILE=in_file, STATUS="OLD", ACTION="READ")
+            DO i=1, in_file_len
+                READ(1,*) out_instructions(i)
+            END DO
+        CLOSE(1)
 
     END FUNCTION extract_instructions
 
