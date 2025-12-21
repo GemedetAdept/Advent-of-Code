@@ -1,0 +1,6 @@
+PROGRAM day_1
+IMPLICIT NONE
+
+
+
+END PROGRAM day_1
