@@ -30,4 +30,8 @@ PROGRAM day_1
         READ(instruction,"(I3)") magnitudes(i)
     END DO
 
+    PRINT*, instructions(2)
+    PRINT*, directions(2)
+    PRINT*, magnitudes(2)
+
 END PROGRAM day_1

@@ -1,0 +1,5 @@
+MODULE mod_functions
+    IMPLICIT NONE
+    PRIVATE
+    
+END MODULE
