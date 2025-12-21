@@ -10,15 +10,19 @@ PROGRAM day_1
     CHARACTER(LEN=instruction_length), DIMENSION(file_length) :: instructions
     CHARACTER(LEN=direction_length), DIMENSION(file_length) :: directions
     INTEGER, DIMENSION(file_length) :: magnitudes
+    CHARACTER(LEN=instruction_length) :: instruction
 
     CHARACTER(LEN=*), PARAMETER :: file = "day_1_practice_input.txt"
 
-    OPEN(2, FILE=file, STATUS="OLD", ACTION="READ")
+    OPEN(1, FILE=file, STATUS="OLD", ACTION="READ")
         DO i=1, file_length
-            READ(2,*) instructions(i)
+            READ(1,*) instructions(i)
         END DO
-    CLOSE(2)
+    CLOSE(1)
 
-    PRINT*, instructions(3)
+        DO i=1, file_length
+            instruction = instructions(i)
+            directions(i) = instruction(1:1)
+        END DO
 
 END PROGRAM day_1
