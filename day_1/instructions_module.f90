@@ -16,3 +16,16 @@ CONTAINS
 
         READ(to_parse, "(I10)") parsed_int
     END FUNCTION string_to_int
+
+    FUNCTION fill_directions(file_in, file_length)
+        CHARACTER(LEN=*), INTENT(IN) :: file_in
+        INTEGER, INTENT(IN) :: file_length
+        CHARACTER, DIMENSION(LEN=file_length), INTENT(OUT) :: directions_out
+        INTEGER :: i
+
+        OPEN(1, FILE=file_in, STATUS="OLD", ACTION="READ")
+            DO i=1, file_length
+                READ(1,*) directions_out(i)
+            END DO
+        CLOSE(1)
+    END FUNCTION fill_directions
