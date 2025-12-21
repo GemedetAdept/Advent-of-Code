@@ -1,6 +1,7 @@
 PROGRAM day_1
-IMPLICIT NONE
+    USE instructions_module
+    IMPLICIT NONE
 
-
+    TYPE(Instructions) :: new_instructions
 
 END PROGRAM day_1
