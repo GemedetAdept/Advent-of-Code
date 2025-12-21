@@ -20,9 +20,14 @@ PROGRAM day_1
         END DO
     CLOSE(1)
 
-        DO i=1, file_length
-            instruction = instructions(i)
-            directions(i) = instruction(1:1)
-        END DO
+    DO i=1, file_length
+        instruction = instructions(i)
+        directions(i) = instruction(1:1)
+    END DO
+
+    DO i=1, file_length
+        instruction = instructions(i)(2:)
+        READ(instruction,"(I3)") magnitudes(i)
+    END DO
 
 END PROGRAM day_1
