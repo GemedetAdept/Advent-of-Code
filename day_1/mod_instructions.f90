@@ -41,7 +41,7 @@ CONTAINS
         IMPLICIT NONE
 
         CHARACTER(LEN=*) :: in_instructions(*)
-        CHARACTER :: in_instruction
+        CHARACTER(LEN=4) :: in_instruction
         INTEGER :: in_file_len
 
         INTEGER, DIMENSION(in_file_len) :: out_magnitudes

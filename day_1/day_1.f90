@@ -17,14 +17,15 @@ PROGRAM day_1
     INTEGER, DIMENSION(file_len) :: magnitudes
     CHARACTER(LEN=instruction_len) :: instruction
 
-    INTEGER :: dial_pos = 50
+    TYPE(dial_t) :: dial
+    dial = dial_t(pos=50, min=0, max=99)
 
     instructions = extract_instructions(file, file_len, instruction_len)
     directions = extract_directions(instructions, file_len, direction_len)
     magnitudes = extract_magnitudes(instructions, file_len)
 
-    PRINT*, instructions(2)
-    PRINT*, directions(2)
-    PRINT*, magnitudes(2)
+    PRINT*, instructions
+    PRINT*, directions
+    PRINT*, magnitudes
 
 END PROGRAM day_1
