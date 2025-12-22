@@ -7,5 +7,5 @@ main:
 	./$(filename)
 
 modules:
-	$(build) -o $(filename) $(filename).f90 $(module1).f90
+	$(build) -o $(filename) -O3 $(filename).f90 $(module1).f90
 	./$(filename)
