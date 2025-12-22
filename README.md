@@ -7,8 +7,17 @@ All of these programs are likely to be a hot mess, but if they work, they work.
 >
 > *Counterpoint:* I recognize that the style guide has made a decision, but given that I personally like the look of the caps, I've elected to ignore it.
 
-# Days/Challenges
-- [x] Day 1 - 2025-12-22
+# 2025
+<details>
+<summary>
+
+## Checkist - *12 Days*
+
+</summary>
+
+### Day [n] &rarr; *[Date of Completion]*
+
+- [x] [Day 1](2025/day_1/) &rarr; *2025-12-22*
 - [ ] Day 2
 - [ ] Day 3
 - [ ] Day 4
@@ -20,3 +29,5 @@ All of these programs are likely to be a hot mess, but if they work, they work.
 - [ ] Day 10
 - [ ] Day 11
 - [ ] Day 12
+
+</details>
