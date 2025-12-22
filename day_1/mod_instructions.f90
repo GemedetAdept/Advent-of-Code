@@ -2,7 +2,7 @@ MODULE mod_instructions
 IMPLICIT NONE
     INTEGER :: i
     PRIVATE
-    PUBLIC :: instruc_from_file, extract_directions, extract_magnitudes, t_instructions
+    PUBLIC :: t_instructions, instruc_from_file, extract_directions, extract_magnitudes
 
     TYPE t_instructions
         CHARACTER(LEN=:), ALLOCATABLE :: file
@@ -20,7 +20,7 @@ CONTAINS
         CHARACTER(LEN=*) :: in_file
         INTEGER :: in_file_len
         INTEGER :: in_instruction_len
-        
+
         CHARACTER(LEN=in_instruction_len), DIMENSION(in_file_len) :: out_instructions
 
         OPEN(1, FILE=in_file, STATUS="OLD", ACTION="READ")
@@ -28,6 +28,7 @@ CONTAINS
                 READ(1,*) out_instructions(i)
             END DO
         CLOSE(1)
+
     END FUNCTION instruc_from_file
 
     FUNCTION extract_directions(in_instructions, in_file_len, in_direction_len) RESULT(out_directions)
@@ -44,6 +45,7 @@ CONTAINS
             in_instruction = in_instructions(i)
             out_directions(i) = in_instruction(1:1)
         END DO
+
     END FUNCTION extract_directions
 
     FUNCTION extract_magnitudes(in_instructions, in_file_len) RESULT(out_magnitudes)
@@ -60,6 +62,7 @@ CONTAINS
             in_instruction = in_instruction(2:)
             READ(in_instruction, "(I3)") out_magnitudes(i)
         END DO
+
     END FUNCTION extract_magnitudes
 
 END MODULE
