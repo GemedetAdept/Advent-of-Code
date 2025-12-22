@@ -1,5 +1,5 @@
 PROGRAM day_1
-    USE mod_instructions, ONLY : extract_instructions, extract_directions
+    USE mod_instructions, ONLY : extract_instructions, extract_directions, extract_magnitudes
     IMPLICIT NONE
 
     INTEGER :: i
@@ -15,13 +15,8 @@ PROGRAM day_1
     CHARACTER(LEN=instruction_len) :: instruction
 
     instructions = extract_instructions(file, file_len, instruction_len)
-
     directions = extract_directions(instructions, file_len, direction_len)
-
-    DO i=1, file_len
-        instruction = instructions(i)(2:)
-        READ(instruction,"(I3)") magnitudes(i)
-    END DO
+    magnitudes = extract_magnitudes(instructions, file_len)
 
     PRINT*, instructions(2)
     PRINT*, directions(2)
