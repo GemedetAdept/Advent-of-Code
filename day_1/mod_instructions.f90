@@ -1,5 +1,5 @@
 MODULE mod_instructions
-IMPLICIT NONE
+    IMPLICIT NONE
     INTEGER :: i
     PRIVATE
     PUBLIC :: t_instructions, instruc_from_file, extract_directions, extract_magnitudes

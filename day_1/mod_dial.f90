@@ -1,5 +1,5 @@
 MODULE mod_dial
-IMPLICIT NONE
+    IMPLICIT NONE
     PRIVATE
     PUBLIC :: t_dial, delta_pos
 

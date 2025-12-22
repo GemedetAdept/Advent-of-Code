@@ -4,6 +4,7 @@ PROGRAM day_1
     USE mod_instructions, ONLY : instruc_from_file, extract_directions, extract_magnitudes, &
         t_instructions
     USE mod_dial, ONLY : t_dial, delta_pos
+    USE mod_password, ONLY : t_password
     IMPLICIT NONE
 
     INTEGER :: i
