@@ -1,5 +1,5 @@
 PROGRAM day_1
-    USE mod_functions, ONLY : extract_instructions, extract_directions
+    USE mod_instructions, ONLY : extract_instructions, extract_directions
     IMPLICIT NONE
 
     INTEGER :: i

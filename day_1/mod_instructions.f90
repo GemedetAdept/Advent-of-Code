@@ -1,4 +1,4 @@
-MODULE mod_functions
+MODULE mod_instructions
 IMPLICIT NONE
     PRIVATE
     INTEGER :: i

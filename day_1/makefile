@@ -1,6 +1,6 @@
 build := gfortran
 filename := day_1
-module1 := mod_functions
+module1 := mod_instructions
 
 main:
 	$(build) $(filename).f90 -o $(filename)
