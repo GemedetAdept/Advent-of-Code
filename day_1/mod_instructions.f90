@@ -2,24 +2,36 @@ MODULE mod_instructions
 IMPLICIT NONE
     INTEGER :: i
     PRIVATE
-    PUBLIC :: extract_instructions, extract_directions, extract_magnitudes
+    PUBLIC :: instruc_from_file, extract_directions, extract_magnitudes, t_instructions
+
+    TYPE t_instructions
+        CHARACTER(LEN=:), ALLOCATABLE :: file
+        INTEGER :: file_len
+        INTEGER :: instruc_len
+        INTEGER :: direction_len
+
+        CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: instructions
+        CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: directions
+        INTEGER, DIMENSION(:), ALLOCATABLE :: magnitudes
+        CHARACTER(LEN=:), ALLOCATABLE :: instruction
+    END TYPE t_instructions
 
 CONTAINS
 
-    FUNCTION extract_instructions(in_file, in_in_file_len, in_instruction_len) RESULT(out_instructions)
+    FUNCTION instruc_from_file(in_file, in_file_len, in_instruction_len) RESULT(out_instructions)
         IMPLICIT NONE
 
         CHARACTER(LEN=*) :: in_file
-        INTEGER :: in_in_file_len
+        INTEGER :: in_file_len
         INTEGER :: in_instruction_len
-        CHARACTER(LEN=in_instruction_len), DIMENSION(in_in_file_len) :: out_instructions
+        CHARACTER(LEN=in_instruction_len), DIMENSION(in_file_len) :: out_instructions
 
         OPEN(1, FILE=in_file, STATUS="OLD", ACTION="READ")
-            DO i=1, in_in_file_len
+            DO i=1, in_file_len
                 READ(1,*) out_instructions(i)
             END DO
         CLOSE(1)
-    END FUNCTION extract_instructions
+    END FUNCTION instruc_from_file
 
     FUNCTION extract_directions(in_instructions, in_file_len, in_direction_len) RESULT(out_directions)
         IMPLICIT NONE

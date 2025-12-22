@@ -1,12 +1,13 @@
 MODULE mod_dial
 IMPLICIT NONE
     PRIVATE
-    PUBLIC :: dial_t
+    PUBLIC :: t_dial
 
-    TYPE dial_t
+    TYPE t_dial
         INTEGER :: pos
         INTEGER :: min
         INTEGER :: max
-    END TYPE dial_t
+    END TYPE t_dial
+
 
 END MODULE mod_dial

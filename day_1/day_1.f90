@@ -1,8 +1,9 @@
 ! Memento mori, ut memento vivere
 
 PROGRAM day_1
-    USE mod_instructions, ONLY : extract_instructions, extract_directions, extract_magnitudes
-    USE mod_dial, ONLY : dial_t
+    USE mod_instructions, ONLY : extract_instructions, extract_directions, extract_magnitudes &
+        t_instructions
+    USE mod_dial, ONLY : t_dial
     IMPLICIT NONE
 
     INTEGER :: i
@@ -17,15 +18,15 @@ PROGRAM day_1
     INTEGER, DIMENSION(file_len) :: magnitudes
     CHARACTER(LEN=instruction_len) :: instruction
 
-    TYPE(dial_t) :: dial
-    dial = dial_t(pos=50, min=0, max=99)
+    TYPE(t_dial) :: dial
+    dial = t_dial(pos=50, min=0, max=99)
 
-    instructions = extract_instructions(file, file_len, instruction_len)
+    instructions = instruc_from_file(file, file_len, instruction_len)
     directions = extract_directions(instructions, file_len, direction_len)
     magnitudes = extract_magnitudes(instructions, file_len)
 
-    PRINT*, instructions
-    PRINT*, directions
-    PRINT*, magnitudes
+    WRITE(*,"(A)") instructions(2)
+    WRITE(*,"(A)") directions(2)
+    WRITE(*,"(I0)") magnitudes(2)
 
 END PROGRAM day_1
