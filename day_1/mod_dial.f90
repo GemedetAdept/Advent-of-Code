@@ -29,5 +29,19 @@ CONTAINS
 
     END FUNCTION delta_pos
 
+    FUNCTION check_pos(pos) RESULT(pos_is_zero)
+        IMPLICIT NONE
+
+        INTEGER :: pos
+        LOGICAL :: pos_is_zero
+
+        IF (pos .EQ. 0) THEN
+            pos_is_zero = .TRUE.
+        ELSE
+            pos_is_zero = .FALSE.
+        END IF
+        
+    END FUNCTION
+
 
 END MODULE mod_dial
