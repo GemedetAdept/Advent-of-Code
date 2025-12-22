@@ -1,5 +1,8 @@
+! Memento mori, ut memento vivere
+
 PROGRAM day_1
     USE mod_instructions, ONLY : extract_instructions, extract_directions, extract_magnitudes
+    USE mod_dial, ONLY : dial_t
     IMPLICIT NONE
 
     INTEGER :: i
@@ -13,6 +16,8 @@ PROGRAM day_1
     CHARACTER(LEN=direction_len), DIMENSION(file_len) :: directions
     INTEGER, DIMENSION(file_len) :: magnitudes
     CHARACTER(LEN=instruction_len) :: instruction
+
+    INTEGER :: dial_pos = 50
 
     instructions = extract_instructions(file, file_len, instruction_len)
     directions = extract_directions(instructions, file_len, direction_len)
