@@ -1,5 +1,5 @@
 PROGRAM day_1
-    USE mod_functions, ONLY : extract_instructions
+    USE mod_functions, ONLY : extract_instructions, extract_directions
     IMPLICIT NONE
 
     INTEGER :: i
@@ -16,10 +16,7 @@ PROGRAM day_1
 
     instructions = extract_instructions(file, file_len, instruction_len)
 
-    DO i=1, file_len
-        instruction = instructions(i)
-        directions(i) = instruction(1:1)
-    END DO
+    directions = extract_directions(instructions, file_len, direction_len)
 
     DO i=1, file_len
         instruction = instructions(i)(2:)
