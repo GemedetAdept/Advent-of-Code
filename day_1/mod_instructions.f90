@@ -6,14 +6,10 @@ IMPLICIT NONE
 
     TYPE t_instructions
         CHARACTER(LEN=:), ALLOCATABLE :: file
-        INTEGER :: file_len
-        INTEGER :: instruc_len
-        INTEGER :: direction_len
 
         CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: instructions
         CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: directions
         INTEGER, DIMENSION(:), ALLOCATABLE :: magnitudes
-        CHARACTER(LEN=:), ALLOCATABLE :: instruction
     END TYPE t_instructions
 
 CONTAINS
@@ -24,6 +20,7 @@ CONTAINS
         CHARACTER(LEN=*) :: in_file
         INTEGER :: in_file_len
         INTEGER :: in_instruction_len
+        
         CHARACTER(LEN=in_instruction_len), DIMENSION(in_file_len) :: out_instructions
 
         OPEN(1, FILE=in_file, STATUS="OLD", ACTION="READ")
