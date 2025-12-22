@@ -9,5 +9,5 @@ main:
 	./$(filename)
 
 modules:
-	$(build) -o $(filename) -O3 $(filename).f90 $(module1).f90 $(module2).f90 $(module3).f90
+	$(build) -o $(filename) -O3 $(filename).f90 $(module1).f90 $(module2).f90 $(module3).f90 -O -Wall -fcheck=all -g -fbacktrace
 	./$(filename)

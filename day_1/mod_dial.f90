@@ -1,7 +1,8 @@
 MODULE mod_dial
+USE mod_instructions, ONLY: t_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_dial, delta_pos
+    PUBLIC :: t_dial, delta_pos, check_pos
 
     TYPE t_dial
         INTEGER :: pos
@@ -11,37 +12,40 @@ MODULE mod_dial
 
 CONTAINS
 
-    FUNCTION delta_pos(pos, direction, magnitude) RESULT(pos_out)
+    FUNCTION delta_pos(dial_in, direction, magnitude) RESULT(pos_out)
         IMPLICIT NONE
 
-        INTEGER :: pos
-        INTEGER :: pos_out
-        INTEGER :: max
+        TYPE(t_dial) :: dial_in
         CHARACTER(LEN=1) :: direction
         INTEGER :: magnitude
+        INTEGER :: pos_val
+        INTEGER :: max_val
+        INTEGER :: pos_out
+
+        pos_val = dial_in % pos
+        max_val = dial_in % max
 
         IF (direction .EQ. "L") THEN 
             magnitude = -magnitude
         END IF
 
-        pos = pos + magnitude
-        pos_out = MOD(pos, max)
+        pos_val = pos_val + magnitude
+        pos_out = MOD(pos_val, max_val)
 
     END FUNCTION delta_pos
 
-    FUNCTION check_pos(pos) RESULT(pos_is_zero)
+    FUNCTION check_pos(pos) RESULT(is_zero)
         IMPLICIT NONE
 
         INTEGER :: pos
-        LOGICAL :: pos_is_zero
+        LOGICAL :: is_zero
+
+        is_zero = .FALSE.
 
         IF (pos .EQ. 0) THEN
-            pos_is_zero = .TRUE.
-        ELSE
-            pos_is_zero = .FALSE.
+            is_zero = .TRUE.
         END IF
-        
-    END FUNCTION
 
+    END FUNCTION check_pos
 
 END MODULE mod_dial
