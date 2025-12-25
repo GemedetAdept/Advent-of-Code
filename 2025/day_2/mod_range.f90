@@ -1,0 +1,4 @@
+MODULE range
+    IMPLICIT NONE
+    PRIVATE
+END MODULE range

@@ -7,6 +7,7 @@ PROGRAM day_2
 
     CHARACTER(:), ALLOCATABLE :: input_ranges
     CHARACTER(:), ALLOCATABLE :: ranges_array(:)
+    
     INTEGER :: input_len
     ! range_count is set to one to account for a lack of a comma at the very end
     INTEGER :: range_count = 1
