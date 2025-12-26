@@ -7,5 +7,5 @@ main:
 	./$(filename)
 
 modules:
-	$(build) -o $(filename) $(filename).f90 ${modules} -O3 -Wall -fcheck=all -g -fbacktrace
+	$(build) -o $(filename) -O3 $(filename).f90 ${modules} -Wall -fcheck=all -g -fbacktrace
 	./$(filename)

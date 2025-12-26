@@ -1,13 +1,15 @@
 ! Memento mori, ut memento vivere
 
 PROGRAM day_2
+    USE mod_range, ONLY: t_range, get_count, alloc_ids_count
     IMPLICIT NONE
 
+    ! <-- SETUP --> 
     INTEGER :: i
 
     CHARACTER(:), ALLOCATABLE :: input_ranges
     CHARACTER(:), ALLOCATABLE :: ranges_array(:)
-    
+
     INTEGER :: input_len
     ! range_count is set to one to account for a lack of a comma at the very end
     INTEGER :: range_count = 1
@@ -15,6 +17,14 @@ PROGRAM day_2
     INTEGER :: curr_range_len = 0
     INTEGER :: max_range_len = 0
     INTEGER :: array_start = 1
+
+    TYPE(t_range) :: range_1
+
+    range_1 = t_range(start=11, end=22, count=0)
+    range_1%count = get_count(range_1%start, range_1%end)
+    WRITE(*,"(I0)") range_1%count
+    CALL alloc_ids_count(range_1)
+    WRITE(*,"(I0)") SIZE(range_1%ids)
 
     input_ranges = "11-22,95-115,998-1012"
     input_len = LEN(input_ranges)
