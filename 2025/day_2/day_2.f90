@@ -15,7 +15,7 @@ PROGRAM day_2
 
     CHARACTER(:), ALLOCATABLE :: split_ranges(:)
 
-    in_ranges = "11-22,95-115,998-1012"
+    in_ranges = "95-115,998-1012"
     split = ","
 
     len_longest_range = get_max_string_len(in_ranges, split)
@@ -28,5 +28,9 @@ PROGRAM day_2
     WRITE(*,"(I0)") SIZE(split_ranges)
 
     split_ranges = split_string(in_ranges, split)
+
+    DO i=1, range_count
+        WRITE(*,*) split_ranges(i:i)
+    END DO
 
 END PROGRAM day_2

@@ -77,6 +77,7 @@ CONTAINS
         INTEGER :: string_count
         INTEGER :: string_start
         CHARACTER(:), ALLOCATABLE :: out_split_strings(:)
+        CHARACTER(:), ALLOCATABLE :: current_string
         INTEGER :: string_iter
         INTEGER :: i
 
@@ -85,20 +86,22 @@ CONTAINS
         max_string_len = get_max_string_len(in_string, in_split_char)
         string_count = get_string_count(in_string, in_split_char)
 
+        ALLOCATE(CHARACTER(max_string_len) :: current_string)
         ALLOCATE(CHARACTER(max_string_len) :: out_split_strings(string_count))
         string_iter = 1
         string_start = 1
 
         DO i=1, in_string_len
             IF (in_string(i:i) .EQ. in_split_char) THEN
-                out_split_strings(string_iter:string_iter) = in_string(string_start:i)
+                current_string = in_string(string_start:i-1)
+                out_split_strings(string_iter) = current_string
 
-                string_start = i+1
+                string_start = i
                 string_iter = string_iter + 1
-            END IF
 
-            IF (i .EQ. in_string_len) THEN
-                out_split_strings(string_iter:string_iter) = in_string((string_start-1):i)
+            ELSE IF (i .EQ. in_string_len) THEN
+                out_split_strings(string_iter) = in_string((string_start+1):i)
+                WRITE(*,*) in_string((string_start+1):i)
             END IF
         END DO
 
