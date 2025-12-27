@@ -2,7 +2,7 @@
 
 PROGRAM day_2
     USE mod_range, ONLY: t_range, get_count, alloc_ids_count
-    USE mod_string_funcs, ONLY: get_max_string_len, get_string_count, get_alloc_array
+    USE mod_string_funcs, ONLY: get_max_string_len, get_string_count, get_alloc_array, split_string
     IMPLICIT NONE
 
     ! <-- SETUP --> 
@@ -26,5 +26,7 @@ PROGRAM day_2
 
     split_ranges = get_alloc_array(len_longest_range, range_count)
     WRITE(*,"(I0)") SIZE(split_ranges)
+
+    split_ranges = split_string(in_ranges, split)
 
 END PROGRAM day_2
