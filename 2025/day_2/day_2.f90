@@ -2,21 +2,21 @@
 
 PROGRAM day_2
     USE mod_range, ONLY: t_range, get_count, alloc_ids_count
+    USE mod_string_funcs, ONLY: get_longest_range
     IMPLICIT NONE
 
     ! <-- SETUP --> 
     INTEGER :: i
 
-    CHARACTER :: in_range = "11-22"
-    INTEGER :: in_len = LEN(in_range)
-    CHARACTER(:), ALLOCATABLE :: ranges_array(:)
+    CHARACTER(:), ALLOCATABLE :: in_ranges
+    CHARACTER(LEN=1) :: split
+    INTEGER :: len_longest_range
 
-    ALLOCATE(CHARACTER(in_len) :: ranges_array(2))
+    in_ranges = "11-22,95-115,998-1012"
+    split = ","
 
-    ! <-- Create t_range objects from extracted string ranges -->
-    DO i=1, in_len
-        
-    END DO
+    len_longest_range = get_longest_range(in_ranges, split)
+    WRITE(*,*) len_longest_range
 
 
 END PROGRAM day_2
