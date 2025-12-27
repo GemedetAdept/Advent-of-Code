@@ -1,7 +1,7 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: get_max_string_len, get_string_count
+    PUBLIC :: get_max_string_len, get_string_count, get_alloc_array
 
 CONTAINS
 
@@ -59,5 +59,13 @@ CONTAINS
             END IF
         END DO
     END FUNCTION get_string_count
+
+    FUNCTION get_alloc_array(in_max_len, in_count) RESULT(out_alloc_array)
+        INTEGER :: in_max_len
+        INTEGER :: in_count
+        CHARACTER(:), ALLOCATABLE :: out_alloc_array(:)
+
+        ALLOCATE(CHARACTER(in_max_len) :: out_alloc_array(in_count))
+    END FUNCTION get_alloc_array
 
 END MODULE mod_string_funcs
