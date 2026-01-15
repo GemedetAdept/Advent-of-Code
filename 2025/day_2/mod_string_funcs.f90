@@ -1,7 +1,19 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    ! PUBLIC :: get_max_string_len, get_string_count, get_alloc_array, split_string
+    PUBLIC :: t_split_string
+
+    TYPE t_split_string
+        CHARACTER(LEN=:), ALLOCATABLE :: input_string
+        CHARACTER(LEN=1) :: split_char
+
+        INTEGER, ALLOCATABLE :: split_indices(:)
+        INTEGER, ALLOCATABLE :: range_lens(:)
+        INTEGER :: range_count
+        INTEGER :: max_range_len
+
+        CHARACTER(LEN=:), ALLOCATABLE :: ranges(:)
+    END TYPE t_split_string
 
 CONTAINS
 

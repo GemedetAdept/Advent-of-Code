@@ -2,7 +2,7 @@
 
 PROGRAM day_2
     USE mod_range, ONLY: t_range, get_count, alloc_ids_count
-    USE mod_string_funcs
+    USE mod_string_funcs, ONLY: t_split_string
     IMPLICIT NONE
 
     ! <-- SETUP --> 
