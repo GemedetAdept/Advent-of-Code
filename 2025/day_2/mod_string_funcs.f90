@@ -1,7 +1,7 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count
+    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens
 
     TYPE t_split_string
         CHARACTER(LEN=:), ALLOCATABLE :: input_string
@@ -11,6 +11,7 @@ MODULE mod_string_funcs
         INTEGER, ALLOCATABLE :: split_indices(:)
         INTEGER, ALLOCATABLE :: range_lens(:)
         INTEGER :: range_count = 0
+        INTEGER :: range_max_len = 0
 
         CHARACTER(LEN=:), ALLOCATABLE :: ranges(:)
     END TYPE t_split_string
@@ -63,6 +64,33 @@ CONTAINS
 
     END SUBROUTINE get_range_count
 
+    SUBROUTINE get_range_lens(in_t_range)
+        INTEGER :: i
+
+        TYPE(t_split_string) :: in_t_range
+        INTEGER, ALLOCATABLE :: in_range_lens(:)
+        INTEGER, ALLOCATABLE :: in_split_indices(:)
+
+        INTEGER :: in_string_len
+        INTEGER :: in_range_count
+        INTEGER :: in_range_max_len
+
+        in_string_len = in_t_range % input_length
+        in_range_count = in_t_range % range_count
+        in_range_max_len = in_t_range % range_max_len
+
+        ALLOCATE(in_split_indices(in_range_count))
+        ALLOCATE(in_range_lens(in_range_count))
+
+        WRITE(*,*) in_split_indices
+
+        DO i=1, in_range_count
+            in_range_lens(i) = in_split_indices(i)
+        END DO
+
+        in_t_range % range_lens = in_range_lens
+
+    END SUBROUTINE get_range_lens
     ! SUBROUTINE populate_ranges(in_t_split)
     !     INTEGER :: i
 
