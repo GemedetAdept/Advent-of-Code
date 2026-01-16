@@ -1,7 +1,7 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens
+    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens, get_split_indices
 
     TYPE t_split_string
         CHARACTER(LEN=:), ALLOCATABLE :: input_string
@@ -9,6 +9,7 @@ MODULE mod_string_funcs
         INTEGER :: input_length = 0
 
         INTEGER, ALLOCATABLE :: split_indices(:)
+        INTEGER :: split_count = 0
         INTEGER, ALLOCATABLE :: range_lens(:)
         INTEGER :: range_count = 0
         INTEGER :: range_max_len = 0
@@ -50,7 +51,41 @@ CONTAINS
         END DO
 
         ALLOCATE(in_t_split % split_indices(split_count))
+
+        in_t_split % split_count = split_count
     END SUBROUTINE get_split_count
+
+    SUBROUTINE get_split_indices(in_t_split)
+        INTEGER :: i, base_index
+
+        TYPE(t_split_string) :: in_t_split
+        INTEGER, ALLOCATABLE :: in_split_indices(:)
+        CHARACTER(LEN=1) :: in_split_char
+        CHARACTER(LEN=:), ALLOCATABLE :: in_string
+        INTEGER :: in_string_len
+        INTEGER :: in_split_count
+
+        in_split_char = in_t_split % split_char
+        in_string = in_t_split % input_string
+        in_string_len = LEN(in_string)
+        in_split_count = in_t_split % split_count
+        base_index = 1
+
+        ALLOCATE(in_split_indices(in_split_count))
+
+        DO i=1, in_string_len
+            IF (in_string(i:i) .EQ. in_split_char) THEN
+                in_split_indices(base_index:base_index) = i
+                base_index = base_index + 1
+            END IF
+
+            IF (i .EQ. in_string_len) THEN
+                in_split_indices(base_index:base_index) = i+1
+            END IF
+        END DO
+
+        in_t_split % split_indices = in_split_indices
+    END SUBROUTINE get_split_indices
 
     SUBROUTINE get_range_count(in_t_split)
 
