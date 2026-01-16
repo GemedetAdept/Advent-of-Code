@@ -25,7 +25,3 @@ prod:
 debug:
 	$(build) $(debug_flags) $(filename) ${src}
 	./$(filename)
-
-.PHONY: clean
-clean:
-	-rm -f *.o *.mod *.smod *.anc
