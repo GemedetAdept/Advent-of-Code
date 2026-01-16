@@ -27,6 +27,7 @@ PROGRAM day_2
     CALL get_split_count(new_split)
     CALL get_range_count(new_split)
     CALL get_split_indices(new_split)
+    CALL get_range_lens(new_split)
     ! CALL get_range_lens(new_split)
     ! CALL populate_ranges(new_split)
 
@@ -36,16 +37,16 @@ PROGRAM day_2
     WRITE(*,*) SIZE(new_split % split_indices)
     WRITE(*,*) new_split % range_count
     WRITE(*,*) new_split % split_indices
-    ! WRITE(*,*) new_split % range_lens
+    WRITE(*,*) new_split % range_lens
 
-    input_range = "998-1012"
-    range_split = "-"
-    range_len = LEN(input_range)
+    ! input_range = "998-1012"
+    ! range_split = "-"
+    ! range_len = LEN(input_range)
 
-    new_range = t_range(input_range, range_split, range_len, 0,0,0)
-    CALL get_bounding_ids(new_range)
-    CALL get_id_count(new_range)
-    CALL populate_ids(new_range)
+    ! new_range = t_range(input_range, range_split, range_len, 0,0,0)
+    ! CALL get_bounding_ids(new_range)
+    ! CALL get_id_count(new_range)
+    ! CALL populate_ids(new_range)
 
     ! WRITE(*,"(A,I0)") "ID Start: ", new_range % id_start
     ! WRITE(*,"(A,I0)") "ID End:   ", new_range % id_end

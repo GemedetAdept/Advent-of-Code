@@ -99,91 +99,53 @@ CONTAINS
 
     END SUBROUTINE get_range_count
 
-    SUBROUTINE get_range_lens(in_t_range)
-        INTEGER :: i
+    SUBROUTINE get_range_lens(in_t_split)
+        INTEGER :: i, base_index
 
-        TYPE(t_split_string) :: in_t_range
+        TYPE(t_split_string) :: in_t_split
+        CHARACTER(LEN=:), ALLOCATABLE :: in_string
+        CHARACTER(LEN=1) :: in_split_char
+        INTEGER :: in_string_len
+        INTEGER :: range_count
         INTEGER, ALLOCATABLE :: in_range_lens(:)
         INTEGER, ALLOCATABLE :: in_split_indices(:)
 
-        INTEGER :: in_string_len
-        INTEGER :: in_range_count
-        INTEGER :: in_range_max_len
 
-        in_string_len = in_t_range % input_length
-        in_range_count = in_t_range % range_count
-        in_range_max_len = in_t_range % range_max_len
+        in_string = in_t_split % input_string
+        in_split_char = in_t_split % split_char
+        in_string_len = in_t_split % input_length
+        range_count = in_t_split % range_count
+        in_split_indices = in_t_split % split_indices
 
-        ALLOCATE(in_split_indices(in_range_count))
-        ALLOCATE(in_range_lens(in_range_count))
+        base_index = 1
 
-        WRITE(*,*) in_split_indices
+        ALLOCATE(in_range_lens(range_count))
 
-        DO i=1, in_range_count
-            in_range_lens(i) = in_split_indices(i)
+        DO i=1, range_count
+            in_range_lens(i) = in_split_indices(i) - base_index
+
+            base_index = in_split_indices(i) + 1
         END DO
 
-        in_t_range % range_lens = in_range_lens
-
+        in_t_split % range_lens = in_range_lens
     END SUBROUTINE get_range_lens
-    ! SUBROUTINE populate_ranges(in_t_split)
-    !     INTEGER :: i
 
-    !     TYPE(t_split_string) :: in_t_split
-    !     CHARACTER(LEN=:), ALLOCATABLE :: in_string
-    !     CHARACTER(LEN=1) :: in_split_char
-    !     INTEGER :: in_string_len
+    SUBROUTINE get_ranges(int_t_split)
+        INTEGER :: i, base_index
 
-    !     INTEGER, ALLOCATABLE :: in_split_indices(:)
-    !     INTEGER, ALLOCATABLE :: in_range_lens(:)
-    !     CHARACTER(LEN=:), ALLOCATABLE :: in_ranges(:)
+        TYPE(t_split_string) :: int_t_split
+        CHARACTER(LEN=:), ALLOCATABLE :: in_string
+        CHARACTER(LEN=:), ALLOCATABLE :: ranges(:)
+        INTEGER, ALLOCATABLE :: in_split_indices(:)
 
-    !     INTEGER :: index_start
-    !     INTEGER :: in_range_count
-    !     INTEGER :: current_range_len
-    !     CHARACTER(LEN=:), ALLOCATABLE :: substring_range
+        INTEGER :: in_string_len
+        INTEGER :: range_count
 
-    !     in_string = in_t_split % input_string
-    !     in_split_char = in_t_split % split_char
-    !     in_string_len = in_t_split % input_length
-    !     in_split_indices = in_t_split % split_indices
-    !     in_range_lens = in_t_split % range_lens
+        in_string = int_t_split % input_string
+        in_split_indices = int_t_split % split_indices
+        in_string_len = int_t_split % input_length
+        range_count = int_t_split % range_count
 
-    !     in_range_count = in_t_split % range_count
-
-    !     index_start = 1
-    !     current_range_len = 0
-    !     in_range_count = 0
-
-    !     DO i=1, in_string_len
-    !         IF (i .EQ. in_split_indices(index_start)) THEN
-    !             substring_range = in_string(index_start:i-1)
-
-    !             in_ranges(index_start) = substring_range
-
-    !             index_start = index_start + 1
-    !             in_range_count = in_range_count + 1
-                
-    !         ELSE IF (i .EQ. in_string_len) THEN
-    !             substring_range = in_string(index_start:i)
-
-    !             in_ranges(index_start) = substring_range
-                
-    !             in_range_count = in_range_count + 1
-    !         END IF
-    !     END DO
-
-    !     DO i=1, in_range_count
-    !         current_range_len = LEN(in_ranges(i:i))
-    !         in_range_lens(i) = current_range_len
-    !     END DO
-
-    !     ALLOCATE(CHARACTER(in_string_len) :: in_ranges(in_range_count))
-    !     ALLOCATE(in_range_lens(in_range_count))
-
-    !     in_t_split % ranges = in_ranges
-    !     in_t_split % range_count = in_range_count
-    !     in_t_split % range_lens = in_range_lens
-    ! END SUBROUTINE populate_ranges
+    END SUBROUTINE get_ranges
 
 END MODULE mod_string_funcs
