@@ -1,7 +1,7 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens, get_split_indices
+    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens, get_split_indices, get_ranges
 
     TYPE t_split_string
         CHARACTER(LEN=:), ALLOCATABLE :: input_string
@@ -130,22 +130,41 @@ CONTAINS
         in_t_split % range_lens = in_range_lens
     END SUBROUTINE get_range_lens
 
-    SUBROUTINE get_ranges(int_t_split)
+    SUBROUTINE get_ranges(in_t_split)
         INTEGER :: i, base_index
+        CHARACTER(LEN=:), ALLOCATABLE :: tmp_char
 
-        TYPE(t_split_string) :: int_t_split
+        TYPE(t_split_string) :: in_t_split
         CHARACTER(LEN=:), ALLOCATABLE :: in_string
         CHARACTER(LEN=:), ALLOCATABLE :: ranges(:)
         INTEGER, ALLOCATABLE :: in_split_indices(:)
+        INTEGER, ALLOCATABLE :: in_range_lens(:)
 
         INTEGER :: in_string_len
         INTEGER :: range_count
+        INTEGER :: range_max_len
 
-        in_string = int_t_split % input_string
-        in_split_indices = int_t_split % split_indices
-        in_string_len = int_t_split % input_length
-        range_count = int_t_split % range_count
+        in_string = in_t_split % input_string
+        in_string_len = in_t_split % input_length
+        in_split_indices = in_t_split % split_indices
 
+        in_range_lens = in_t_split % range_lens
+        range_count = in_t_split % range_count
+        range_max_len = MAXVAL(in_range_lens)
+
+        ALLOCATE(CHARACTER(LEN=range_max_len) :: tmp_char)
+        ALLOCATE(CHARACTER(LEN=range_max_len) :: ranges(range_count))
+
+        base_index = 1
+        DO i=1, range_count
+            tmp_char = in_string(base_index:in_split_indices(i)-1)
+            
+            base_index = in_split_indices(i)+1
+            
+            ranges(i) = tmp_char
+        END DO
+
+        in_t_split % ranges = ranges
     END SUBROUTINE get_ranges
 
 END MODULE mod_string_funcs
