@@ -1,7 +1,7 @@
 ! Memento mori, ut memento vivere
 
 PROGRAM day_2
-    USE mod_range, ONLY: t_range, get_count, alloc_ids_count
+    USE mod_range, ONLY: t_range
     USE mod_string_funcs, ONLY: t_split_string, init_split_string, get_split_count
     IMPLICIT NONE
 

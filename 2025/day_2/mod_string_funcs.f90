@@ -50,7 +50,9 @@ CONTAINS
         END DO
 
         ALLOCATE(in_t_split % split_indices(split_count))
-
     END SUBROUTINE get_split_count
+
+    SUBROUTINE get_split_indices(in_t_split)
+    END SUBROUTINE get_split_indices
 
 END MODULE mod_string_funcs
