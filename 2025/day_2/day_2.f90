@@ -2,7 +2,7 @@
 
 PROGRAM day_2
     USE mod_string_funcs, ONLY: t_split_string, init_split_string, get_split_count
-    USE mod_range, ONLY: t_range, get_bounding_ids, get_id_count
+    USE mod_range, ONLY: t_range, get_bounding_ids, get_id_count, populate_ids
     IMPLICIT NONE
 
     ! <-- SETUP --> 
@@ -43,5 +43,8 @@ PROGRAM day_2
 
     CALL get_id_count(new_range)
     WRITE(*,*) "ID Count: ", new_range % id_count
+
+    CALL populate_ids(new_range)
+    WRITE(*,*) "IDs List: ", new_range % range_ids
 
 END PROGRAM day_2

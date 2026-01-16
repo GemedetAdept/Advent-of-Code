@@ -1,7 +1,7 @@
 MODULE mod_range
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_range, get_bounding_ids, get_id_count
+    PUBLIC :: t_range, get_bounding_ids, get_id_count, populate_ids
 
     TYPE t_range
         CHARACTER(LEN=:), ALLOCATABLE :: range_str
@@ -64,9 +64,32 @@ CONTAINS
         id_start = in_t_range % id_start
         id_end = in_t_range % id_end
 
-        id_count = id_end - id_start
+        id_count = (id_end - id_start) + 1
 
         in_t_range % id_count = id_count
     END SUBROUTINE get_id_count
+
+    SUBROUTINE populate_ids(in_t_range)
+        INTEGER :: i
+
+        TYPE(t_range) :: in_t_range
+        INTEGER :: id_start, id_end, id_count
+        INTEGER :: id_iter
+        INTEGER, ALLOCATABLE :: range_ids(:)
+
+        id_start = in_t_range % id_start
+        id_end = in_t_range % id_end
+        id_count = in_t_range % id_count
+
+        ALLOCATE(range_ids(id_count))
+
+        id_iter = id_start
+        DO i = 1, id_count
+            range_ids(i) = id_iter
+            id_iter = id_iter + 1
+        END DO
+
+        in_t_range % range_ids = range_ids
+    END SUBROUTINE populate_ids
 
 END MODULE mod_range
