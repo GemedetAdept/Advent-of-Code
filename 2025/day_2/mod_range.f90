@@ -1,7 +1,7 @@
 MODULE mod_range
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_range, get_bounding_ids
+    PUBLIC :: t_range, get_bounding_ids, get_id_count
 
     TYPE t_range
         CHARACTER(LEN=:), ALLOCATABLE :: range_str
@@ -39,15 +39,14 @@ CONTAINS
         DO i=1, in_range_len
             IF (in_range_str(i:i) .EQ. in_range_split) THEN
                 substring_range = in_range_str(index_start:i-1)
-                WRITE(*,*) substring_range
-                READ(substring_range, "(I10)") out_id_start
 
+                READ(substring_range, "(I10)") out_id_start
                 index_start = i+1
             END IF
 
             IF (i .EQ. in_range_len) THEN
                 substring_range = in_range_str(index_start:i)
-                WRITE(*,*) substring_range
+
                 READ(substring_range, "(I10)") out_id_end
             END IF
         END DO
@@ -55,5 +54,19 @@ CONTAINS
         in_t_range % id_start = out_id_start
         in_t_range % id_end = out_id_end
     END SUBROUTINE get_bounding_ids
+
+    SUBROUTINE get_id_count(in_t_range)
+        TYPE(t_range) :: in_t_range
+
+        INTEGER :: id_start, id_end
+        INTEGER :: id_count
+
+        id_start = in_t_range % id_start
+        id_end = in_t_range % id_end
+
+        id_count = id_end - id_start
+
+        in_t_range % id_count = id_count
+    END SUBROUTINE get_id_count
 
 END MODULE mod_range

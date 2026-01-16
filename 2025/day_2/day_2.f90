@@ -2,7 +2,7 @@
 
 PROGRAM day_2
     USE mod_string_funcs, ONLY: t_split_string, init_split_string, get_split_count
-    USE mod_range, ONLY: t_range, get_bounding_ids
+    USE mod_range, ONLY: t_range, get_bounding_ids, get_id_count
     IMPLICIT NONE
 
     ! <-- SETUP --> 
@@ -38,6 +38,10 @@ PROGRAM day_2
     new_range = t_range(input_range, range_split, range_len, 0,0,0)
 
     CALL get_bounding_ids(new_range)
-    WRITE(*,*) new_range % id_start, new_range % id_end
+    WRITE(*,*) "ID Start: ", new_range % id_start
+    WRITE(*,*) "ID End:   ", new_range % id_end
+
+    CALL get_id_count(new_range)
+    WRITE(*,*) "ID Count: ", new_range % id_count
 
 END PROGRAM day_2
