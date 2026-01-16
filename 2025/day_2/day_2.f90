@@ -36,15 +36,13 @@ PROGRAM day_2
     range_len = LEN(input_range)
 
     new_range = t_range(input_range, range_split, range_len, 0,0,0)
-
     CALL get_bounding_ids(new_range)
-    WRITE(*,*) "ID Start: ", new_range % id_start
-    WRITE(*,*) "ID End:   ", new_range % id_end
-
     CALL get_id_count(new_range)
-    WRITE(*,*) "ID Count: ", new_range % id_count
-
     CALL populate_ids(new_range)
-    WRITE(*,*) "IDs List: ", new_range % range_ids
+
+    ! WRITE(*,"(A,I0)") "ID Start: ", new_range % id_start
+    ! WRITE(*,"(A,I0)") "ID End:   ", new_range % id_end
+    ! WRITE(*,"(A,I0)") "ID Count: ", new_range % id_count
+    ! WRITE(*,"(I0)") new_range % range_ids
 
 END PROGRAM day_2

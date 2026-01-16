@@ -1,11 +1,31 @@
 build := gfortran
 filename := day_2
-modules := mod_range.f90 mod_string_funcs.f90
+src := $(filename).f90\
+	   mod_range.f90\
+	   mod_string_funcs.f90
+debug_flags := -Og\
+			-Wall\
+			-Wextra\
+			-Wconversion\
+			-fcheck=all\
+			-g\
+			-fbacktrace\
+			-pedantic\
+			-o
+prod_flags := -O3\
+			-fimplicit-none\
+			-Wall\
+			-g\
+			-o
 
-main:
-	$(build) -o $(filename) $(filename).f90 -O3 -Wall -fcheck=all -g -fbacktrace
+prod:
+	$(build) $(prod_flags) $(filename) $(filename).f90
 	./$(filename)
 
-modules:
-	$(build) -o $(filename) -O3 $(filename).f90 ${modules} -Wall -fcheck=all -g -fbacktrace
+debug:
+	$(build) $(debug_flags) $(filename) ${src}
 	./$(filename)
+
+.PHONY: clean
+clean:
+	-rm -f *.o *.mod *.smod *.anc
