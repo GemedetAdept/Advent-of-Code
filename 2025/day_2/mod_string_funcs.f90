@@ -20,7 +20,7 @@ MODULE mod_string_funcs
 
 CONTAINS
 
-    FUNCTION init_split_string(string, split) result(out_t_split)
+    FUNCTION init_split_string(string, split) RESULT(out_t_split)
         CHARACTER(LEN=:), ALLOCATABLE, INTENT(IN) :: string
         CHARACTER(LEN=1), INTENT(IN) :: split
 

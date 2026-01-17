@@ -1,12 +1,13 @@
 MODULE mod_range
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_range, get_bounding_ids, get_id_count, populate_ids
+    PUBLIC :: t_range, init_t_range, &
+        get_bounding_ids, get_id_count, populate_ids
 
     TYPE t_range
         CHARACTER(LEN=:), ALLOCATABLE :: range_str
         CHARACTER(LEN=1) :: range_split
-        INTEGER :: range_len
+        INTEGER :: range_len = 0
 
         INTEGER :: id_start = 0
         INTEGER :: id_end = 0
@@ -16,6 +17,18 @@ MODULE mod_range
     END TYPE t_range
 
 CONTAINS
+
+    FUNCTION init_t_range(string, split) RESULT(out_t_range)
+        CHARACTER(LEN=:), ALLOCATABLE, INTENT(IN) :: string
+        CHARACTER(LEN=1), INTENT(IN) :: split
+
+        TYPE(t_range) :: out_t_range
+        out_t_range = t_range(string, split)
+
+        CALL get_bounding_ids(out_t_range)
+        CALL get_id_count(out_t_range)
+        CALL populate_ids(out_t_range)
+    END FUNCTION init_t_range
 
     SUBROUTINE get_bounding_ids(in_t_range)
         INTEGER :: i
