@@ -4,7 +4,7 @@ PROGRAM day_2
     USE mod_string_funcs, ONLY: t_split_string, init_split_string, & 
         get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, init_range, &
-        get_bounding_ids, get_id_count, populate_ids
+        get_id_bounds
     IMPLICIT NONE
 
     ! <-- SETUP --> 
@@ -37,6 +37,7 @@ PROGRAM day_2
     WRITE(*,*) new_split % ranges
 
     ! | t_range |
-    WRITE(*,*) new_range % range_ids
+    WRITE(*,*) new_range % id_start
+    WRITE(*,*) new_range % id_end
 
 END PROGRAM day_2
