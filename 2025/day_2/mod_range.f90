@@ -1,7 +1,7 @@
 MODULE mod_range
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_range, init_t_range, &
+    PUBLIC :: t_range, init_range, &
         get_bounding_ids, get_id_count, populate_ids
 
     TYPE t_range
@@ -18,17 +18,24 @@ MODULE mod_range
 
 CONTAINS
 
-    FUNCTION init_t_range(string, split) RESULT(out_t_range)
+    FUNCTION init_range(string, split) RESULT(out_t_range)
         CHARACTER(LEN=:), ALLOCATABLE, INTENT(IN) :: string
         CHARACTER(LEN=1), INTENT(IN) :: split
 
         TYPE(t_range) :: out_t_range
-        out_t_range = t_range(string, split)
+
+        CHARACTER(LEN=:), ALLOCATABLE :: trim_string
+        INTEGER :: range_len
+        
+        trim_string = TRIM(ADJUSTL(string))
+        range_len = LEN(trim_string)
+
+        out_t_range = t_range(trim_string, split, range_len)
 
         CALL get_bounding_ids(out_t_range)
         CALL get_id_count(out_t_range)
         CALL populate_ids(out_t_range)
-    END FUNCTION init_t_range
+    END FUNCTION init_range
 
     SUBROUTINE get_bounding_ids(in_t_range)
         INTEGER :: i
@@ -39,7 +46,7 @@ CONTAINS
         INTEGER :: in_range_len
 
         INTEGER :: index_start = 1
-        CHARACTER(LEN=:), ALLOCATABLE :: substring_range
+        CHARACTER(LEN=:), ALLOCATABLE :: sub_range
         INTEGER :: out_id_start, out_id_end
 
         in_range_str = in_t_range % range_str
@@ -49,23 +56,6 @@ CONTAINS
         out_id_start = in_t_range % id_start
         out_id_end = in_t_range % id_end
 
-        DO i=1, in_range_len
-            IF (in_range_str(i:i) .EQ. in_range_split) THEN
-                substring_range = in_range_str(index_start:i-1)
-
-                READ(substring_range, "(I10)") out_id_start
-                index_start = i+1
-            END IF
-
-            IF (i .EQ. in_range_len) THEN
-                substring_range = in_range_str(index_start:i)
-
-                READ(substring_range, "(I10)") out_id_end
-            END IF
-        END DO
-
-        in_t_range % id_start = out_id_start
-        in_t_range % id_end = out_id_end
     END SUBROUTINE get_bounding_ids
 
     SUBROUTINE get_id_count(in_t_range)
@@ -77,7 +67,7 @@ CONTAINS
         id_start = in_t_range % id_start
         id_end = in_t_range % id_end
 
-        id_count = (id_end - id_start) + 1
+        id_count = (id_start - id_end) + 1
 
         in_t_range % id_count = id_count
     END SUBROUTINE get_id_count
