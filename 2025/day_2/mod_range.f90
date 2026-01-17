@@ -2,7 +2,7 @@ MODULE mod_range
     IMPLICIT NONE
     PRIVATE
     PUBLIC :: t_range, init_range, &
-        get_id_bounds, get_id_count
+        get_id_bounds, get_id_count, populate_ids
     TYPE t_range
         CHARACTER(LEN=:), ALLOCATABLE :: range_str
         CHARACTER(LEN=1) :: range_split
@@ -22,7 +22,6 @@ CONTAINS
         CHARACTER(LEN=1), INTENT(IN) :: split
         TYPE(t_range) :: out_t_range
 
-
         CHARACTER(LEN=:), ALLOCATABLE :: trim_string
         INTEGER :: range_len
         
@@ -33,7 +32,7 @@ CONTAINS
 
         CALL get_id_bounds(out_t_range)
         CALL get_id_count(out_t_range)
-        ! CALL populate_ids(out_t_range)
+        CALL populate_ids(out_t_range)
     END FUNCTION init_range
 
     SUBROUTINE get_id_bounds(in_t_range)
@@ -80,10 +79,30 @@ CONTAINS
 
         in_id_start = in_t_range % id_start
         in_id_end = in_t_range % id_end
-
         in_id_count = in_id_end - in_id_start
 
         in_t_range % id_count = in_id_count
     END SUBROUTINE get_id_count
+
+    SUBROUTINE populate_ids(in_t_range)
+        TYPE(t_range) :: in_t_range
+        INTEGER :: i, id_iter
+        INTEGER :: in_id_start, in_id_count
+        INTEGER, ALLOCATABLE :: in_range_ids(:)
+
+        in_id_start = in_t_range % id_start
+        in_id_count = (in_t_range % id_count) + 1
+        WRITE(*,*) in_id_count
+
+        ALLOCATE(in_range_ids(in_id_count))
+
+        id_iter = in_id_start
+        DO i=1, in_id_count
+            in_range_ids(i) = id_iter
+            id_iter = id_iter + 1
+        END DO
+
+        in_t_range % range_ids = in_range_ids
+    END SUBROUTINE populate_ids
 
 END MODULE mod_range
