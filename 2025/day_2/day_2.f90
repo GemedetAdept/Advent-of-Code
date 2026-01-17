@@ -1,7 +1,7 @@
 ! Memento mori, ut memento vivere
 
 PROGRAM day_2
-    USE mod_string_funcs, ONLY: t_split_string, init_split_string, get_split_count, get_range_count, get_range_lens, get_split_indices, get_ranges
+    USE mod_string_funcs, ONLY: t_split_string, init_split_string, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, get_bounding_ids, get_id_count, populate_ids
     IMPLICIT NONE
 
@@ -27,7 +27,7 @@ PROGRAM day_2
     CALL get_split_count(new_split)
     CALL get_range_count(new_split)
     CALL get_split_indices(new_split)
-    CALL get_range_lens(new_split)
+    CALL get_range_len(new_split)
     CALL get_ranges(new_split)
 
     ! WRITE(*,*) new_split % input_string
