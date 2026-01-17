@@ -92,7 +92,6 @@ CONTAINS
 
         in_id_start = in_t_range % id_start
         in_id_count = (in_t_range % id_count) + 1
-        WRITE(*,*) in_id_count
 
         ALLOCATE(in_range_ids(in_id_count))
 
