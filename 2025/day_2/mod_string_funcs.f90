@@ -1,16 +1,17 @@
 MODULE mod_string_funcs
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: t_split_string, init_split_string, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
+    PUBLIC :: t_split_string, init_split_string, &
+    get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
 
     TYPE t_split_string
-        CHARACTER(LEN=:), ALLOCATABLE :: input_string
+        CHARACTER(LEN=:), ALLOCATABLE :: string
         CHARACTER(LEN=1) :: split_char
-        INTEGER :: input_length = 0
+        INTEGER :: string_len = 0
 
         INTEGER, ALLOCATABLE :: split_indices(:)
         INTEGER :: split_count = 0
-        INTEGER, ALLOCATABLE :: range_lens(:)
+        INTEGER, ALLOCATABLE :: range_len(:)
         INTEGER :: range_count = 0
         INTEGER :: range_max_len = 0
 
@@ -19,13 +20,30 @@ MODULE mod_string_funcs
 
 CONTAINS
 
-    SUBROUTINE init_split_string(in_t_split)
+    FUNCTION init_split_string(string, split) result(out_t_split)
+        CHARACTER(LEN=:), ALLOCATABLE, INTENT(IN) :: string
+        CHARACTER(LEN=1), INTENT(IN) :: split
+
+        TYPE(t_split_string) :: out_t_split
+        out_t_split = t_split_string(string, split)
+
+        CALL get_string_len(out_t_split)
+        CALL get_split_count(out_t_split)
+        CALL get_range_count(out_t_split)
+        CALL get_split_indices(out_t_split)
+        CALL get_range_len(out_t_split)
+        CALL get_ranges(out_t_split)
+    END FUNCTION init_split_string
+
+    ! I'm 100% sure that there is a better way of doing these subroutines than this mess
+    ! For the time being though, I'm still learning and it *does* work
+    SUBROUTINE get_string_len(in_t_split)
         TYPE(t_split_string) :: in_t_split
         INTEGER :: in_string_len
 
-        in_string_len = LEN(in_t_split % input_string)
-        in_t_split % input_length = in_string_len
-    END SUBROUTINE init_split_string
+        in_string_len = LEN(in_t_split % string)
+        in_t_split % string_len = in_string_len
+    END SUBROUTINE get_string_len
 
     SUBROUTINE get_split_count(in_t_split)
         INTEGER :: i, split_count
@@ -35,9 +53,9 @@ CONTAINS
         CHARACTER(LEN=1) :: in_split_char
         INTEGER :: in_string_len
 
-        in_string = in_t_split % input_string
+        in_string = in_t_split % string
         in_split_char = in_t_split % split_char
-        in_string_len = in_t_split % input_length
+        in_string_len = in_t_split % string_len
 
         split_count = 0
         DO i=1, in_string_len
@@ -66,7 +84,7 @@ CONTAINS
         INTEGER :: in_split_count
 
         in_split_char = in_t_split % split_char
-        in_string = in_t_split % input_string
+        in_string = in_t_split % string
         in_string_len = LEN(in_string)
         in_split_count = in_t_split % split_count
         base_index = 1
@@ -107,27 +125,27 @@ CONTAINS
         CHARACTER(LEN=1) :: in_split_char
         INTEGER :: in_string_len
         INTEGER :: range_count
-        INTEGER, ALLOCATABLE :: in_range_lens(:)
+        INTEGER, ALLOCATABLE :: in_range_len(:)
         INTEGER, ALLOCATABLE :: in_split_indices(:)
 
 
-        in_string = in_t_split % input_string
+        in_string = in_t_split % string
         in_split_char = in_t_split % split_char
-        in_string_len = in_t_split % input_length
+        in_string_len = in_t_split % string_len
         range_count = in_t_split % range_count
         in_split_indices = in_t_split % split_indices
 
         base_index = 1
 
-        ALLOCATE(in_range_lens(range_count))
+        ALLOCATE(in_range_len(range_count))
 
         DO i=1, range_count
-            in_range_lens(i) = in_split_indices(i) - base_index
+            in_range_len(i) = in_split_indices(i) - base_index
 
             base_index = in_split_indices(i) + 1
         END DO
 
-        in_t_split % range_lens = in_range_lens
+        in_t_split % range_len = in_range_len
     END SUBROUTINE get_range_len
 
     SUBROUTINE get_ranges(in_t_split)
@@ -138,19 +156,19 @@ CONTAINS
         CHARACTER(LEN=:), ALLOCATABLE :: in_string
         CHARACTER(LEN=:), ALLOCATABLE :: ranges(:)
         INTEGER, ALLOCATABLE :: in_split_indices(:)
-        INTEGER, ALLOCATABLE :: in_range_lens(:)
+        INTEGER, ALLOCATABLE :: in_range_len(:)
 
         INTEGER :: in_string_len
         INTEGER :: range_count
         INTEGER :: range_max_len
 
-        in_string = in_t_split % input_string
-        in_string_len = in_t_split % input_length
+        in_string = in_t_split % string
+        in_string_len = in_t_split % string_len
         in_split_indices = in_t_split % split_indices
 
-        in_range_lens = in_t_split % range_lens
+        in_range_len = in_t_split % range_len
         range_count = in_t_split % range_count
-        range_max_len = MAXVAL(in_range_lens)
+        range_max_len = MAXVAL(in_range_len)
 
         ALLOCATE(CHARACTER(LEN=range_max_len) :: tmp_char)
         ALLOCATE(CHARACTER(LEN=range_max_len) :: ranges(range_count))
