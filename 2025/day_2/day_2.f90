@@ -5,18 +5,17 @@ PROGRAM day_2
         get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, init_range, &
         get_id_bounds, get_id_count, populate_ids
-    USE mod_instructions, ONLY: string_to_int
+    USE mod_instructions, ONLY: string_to_int, get_int_len
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    CHARACTER(LEN=:), ALLOCATABLE :: test_str
-    INTEGER :: test_int
+    INTEGER :: new_int, new_int_len
 
-    test_str = "123"
-    test_int = string_to_int(test_str)
+    new_int = 3985325
+    WRITE(*,*) "Expected output: 7"
 
-    WRITE(*,*) test_str
-    WRITE(*,*) test_int
+    new_int_len = get_int_len(new_int)
+    WRITE(*,*) new_int_len
 
     ! Set up variables
 
