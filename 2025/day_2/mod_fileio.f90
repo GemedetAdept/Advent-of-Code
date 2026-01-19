@@ -1,4 +1,4 @@
-MODULE mod_file_io
+MODULE mod_fileio
     IMPLICIT NONE
     PRIVATE
     PUBLIC :: read_file_oneline
@@ -27,4 +27,4 @@ CONTAINS
 
     END FUNCTION read_file_oneline
 
-END MODULE mod_file_io
+END MODULE mod_fileio
