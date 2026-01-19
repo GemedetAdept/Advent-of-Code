@@ -1,7 +1,7 @@
 MODULE mod_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: string_to_int, int_to_string, get_int_len
+    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half
 
 CONTAINS
 
@@ -17,6 +17,7 @@ CONTAINS
         INTEGER, INTENT(IN) :: in_int
         CHARACTER(LEN=:), ALLOCATABLE :: out_string
 
+        ! Note: Fortran is *not* happy when the string doesn't have a defined length for this operation
         ALLOCATE(CHARACTER(LEN=50) :: out_string)
 
         WRITE(out_string, *) in_int
@@ -27,13 +28,31 @@ CONTAINS
     !   from FadedCoder in this StackOverflow thread: https://stackoverflow.com/questions/2189800/how-to-find-length-of-digits-in-an-integer
     ! I'm sure there are plenty of other sources and uses of it, but I like to give credit specifically to where I find things
     FUNCTION get_int_len(in_int) RESULT(out_len)
-        INTEGER, INTENT(IN) :: in_int
-        REAL :: in_real, calc_step
+        INTEGER(KIND=8), INTENT(IN) :: in_int
+        REAL :: calc_step
         INTEGER :: out_len
 
-        in_real = REAL(in_int)
-        calc_step = LOG10(in_real)
+        calc_step = REAL(in_int)
+        calc_step = LOG10(calc_step)
 
         out_len = FLOOR(calc_step)+1
     END FUNCTION get_int_len
+
+    ! I found this solution by Ehsan Sajjad at this link:
+    ! https://www.c-sharpcorner.com/blogs/how-to-get-first-n-digits-of-a-number
+    FUNCTION get_int_first_half(in_int) RESULT(first_half)
+        INTEGER(KIND=8), INTENT(IN) :: in_int
+        REAL :: calc_step
+        INTEGER :: int_len, half_len
+        INTEGER(KIND=8) :: first_half
+
+        int_len = get_int_len(in_int)
+        half_len = int_len / 2
+        
+        calc_step = REAL(in_int)
+        calc_step = AINT(calc_step/(10**(half_len)))
+
+        first_half = INT(calc_step)
+
+    END FUNCTION get_int_first_half
 END MODULE mod_instructions

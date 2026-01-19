@@ -5,16 +5,15 @@ PROGRAM day_2
         get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, init_range, &
         get_id_bounds, get_id_count, populate_ids
-    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len
+    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len, get_int_first_half
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    INTEGER :: in_int
-    CHARACTER(LEN=20) :: out_str
+    INTEGER(KIND=8) :: in_int, first_half
 
-    in_int = 309285
-    out_str = int_to_string(in_int)
-    WRITE(*,*) out_str
+    in_int = 3945309285_8
+    first_half = get_int_first_half(in_int)
+    WRITE(*,*) first_half
     
 
     ! Set up variables
