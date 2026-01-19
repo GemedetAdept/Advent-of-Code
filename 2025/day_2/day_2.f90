@@ -37,13 +37,11 @@ PROGRAM day_2
     range_count = split_input % range_count
 
     ALLOCATE(t_ranges(range_count))
-
     DO i=1, range_count
         temp_range_str = str_ranges(i)
         temp_range = init_range(temp_range_str, split_dash)
+        t_ranges(i) = temp_range
     END DO
-
-    ! Process ranges using procedures within the objects to get an array of all the ID values of the range
 
     ! Sum the total number of IDs (number provided by previous step) and use it to allocate
     !   space to an integer array, where the full list of IDs will be stored
