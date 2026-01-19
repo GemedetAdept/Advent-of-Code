@@ -9,23 +9,23 @@ PROGRAM day_2
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    ! <-- SETUP --> 
-    ! INTEGER :: i
+    ! Set up variables
 
-    ! TYPE(t_split_string) :: instruc_split
-    ! CHARACTER(LEN=:), ALLOCATABLE :: input_string
-    ! CHARACTER(LEN=1) :: split_char
+    ! Load file data (instructions) into variable as a singular string
 
-    ! TYPE(t_range) :: new_range
-    ! CHARACTER(LEN=:), ALLOCATABLE :: input_range
-    ! CHARACTER(LEN=1) :: range_split
+    ! Split instructions string into array of string ranges
 
-    ! input_string = "11-22,95-115,998-1012"
-    ! split_char = ","
-    ! instruc_split = init_split_string(input_string, split_char)
+    ! Pass each range into a range object and load into an array of range objects
 
-    ! input_range = instruc_split % ranges(1)
-    ! range_split = "-"
-    ! new_range = init_range(input_range, range_split)
+    ! Process ranges using procedures within the objects to get an array of all the ID values of the range
+
+    ! Sum the total number of IDs (number provided by previous step) and use it to allocate
+    !   space to an integer array, where the full list of IDs will be stored
+
+    ! Initalize integer variable to hold the solution to the puzzle.
+
+    ! Check every ID for validity. If the ID is invalid, add it to the solution integer.
+
+    ! Per the puzzle on the Advent of Code website, this sum is the answer to the puzzle.
 
 END PROGRAM day_2
