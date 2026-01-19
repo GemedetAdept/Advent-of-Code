@@ -10,22 +10,6 @@ PROGRAM day_2
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    INTEGER(KIND=8) :: in_int, first_half, last_half
-    LOGICAL :: parity_bool, is_valid
-
-    in_int = 394094_8
-    first_half = get_int_first_half(in_int)
-    WRITE(*,*) first_half
-    
-    last_half = get_int_last_half(in_int)
-    WRITE(*,*) last_half
-
-    parity_bool = len_is_even(in_int)
-    WRITE(*,*) parity_bool
-
-    is_valid = id_is_valid(in_int)
-    WRITE(*,*) is_valid
-
     ! Set up variables
 
     ! Load file data (instructions) into variable as a singular string

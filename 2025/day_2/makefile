@@ -21,7 +21,7 @@ prod_flags := -O3\
 			-o
 
 prod:
-	$(build) $(prod_flags) $(filename) $(filename).f90
+	$(build) $(prod_flags) $(filename) ${src}
 	./$(filename)
 
 debug:
