@@ -8,11 +8,11 @@ MODULE mod_range
         CHARACTER(LEN=1) :: range_split
         INTEGER :: range_len = 0
 
-        INTEGER :: id_start = 0
-        INTEGER :: id_end = 0
+        INTEGER(KIND=8) :: id_start = 0
+        INTEGER(KIND=8) :: id_end = 0
         INTEGER :: id_count = 0
 
-        INTEGER, ALLOCATABLE :: range_ids(:)
+        INTEGER(KIND=8), ALLOCATABLE :: range_ids(:)
     END TYPE t_range
 
 CONTAINS
@@ -39,7 +39,7 @@ CONTAINS
         TYPE(t_range) :: in_t_range
 
         INTEGER :: i, in_range_len
-        INTEGER :: id_start, id_end
+        INTEGER(KIND=8) :: id_start, id_end
         INTEGER :: id_start_i, id_end_i
 
         CHARACTER(LEN=:), ALLOCATABLE :: id_start_substr
@@ -75,7 +75,7 @@ CONTAINS
 
     SUBROUTINE get_id_count(in_t_range)
         TYPE(t_range) :: in_t_range
-        INTEGER :: in_id_start, in_id_end, in_id_count
+        INTEGER(KIND=8) :: in_id_start, in_id_end, in_id_count
 
         in_id_start = in_t_range % id_start
         in_id_end = in_t_range % id_end

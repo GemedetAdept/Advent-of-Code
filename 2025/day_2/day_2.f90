@@ -18,7 +18,7 @@ PROGRAM day_2
     TYPE(t_split_string) :: split_input
     INTEGER :: range_count
     TYPE(t_range), ALLOCATABLE :: t_ranges(:)
-    CHARACTER(LEN=:), ALLOCATABLE :: char_ranges(:)
+    CHARACTER(LEN=:), ALLOCATABLE :: str_ranges(:)
     CHARACTER(LEN=:), ALLOCATABLE :: temp_range_str
     TYPE(t_range) :: temp_range
     
@@ -33,10 +33,15 @@ PROGRAM day_2
     split_comma = ","
     split_dash = "-"
     split_input = init_split_string(puzzle_input, split_comma)
-    char_ranges = split_input % ranges
+    str_ranges = split_input % ranges
     range_count = split_input % range_count
 
-    ! Pass each range into a range object and load into an array of range objects
+    ALLOCATE(t_ranges(range_count))
+
+    DO i=1, range_count
+        temp_range_str = str_ranges(i)
+        temp_range = init_range(temp_range_str, split_dash)
+    END DO
 
     ! Process ranges using procedures within the objects to get an array of all the ID values of the range
 
