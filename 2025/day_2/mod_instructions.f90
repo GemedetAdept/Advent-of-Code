@@ -1,7 +1,7 @@
 MODULE mod_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half
+    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, len_is_even
 
 CONTAINS
 
@@ -67,4 +67,17 @@ CONTAINS
         last_half = MOD(in_int, 10**(half_len))
 
     END FUNCTION get_int_last_half
+
+    FUNCTION len_is_even(in_int) RESULT(parity_bool)
+        INTEGER(KIND=8), INTENT(IN) :: in_int
+        INTEGER :: int_len
+        LOGICAL :: parity_bool
+
+        int_len = get_int_len(in_int)
+        IF (MOD(int_len, 2) .EQ. 0) THEN
+            parity_bool = .TRUE.
+        ELSE
+            parity_bool = .FALSE.
+        END IF
+    END FUNCTION len_is_even
 END MODULE mod_instructions

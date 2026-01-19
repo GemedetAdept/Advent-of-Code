@@ -5,11 +5,12 @@ PROGRAM day_2
         get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, init_range, &
         get_id_bounds, get_id_count, populate_ids
-    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half
+    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, len_is_even
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
     INTEGER(KIND=8) :: in_int, first_half, last_half
+    LOGICAL :: parity_bool
 
     in_int = 394530_8
     first_half = get_int_first_half(in_int)
@@ -18,6 +19,8 @@ PROGRAM day_2
     last_half = get_int_last_half(in_int)
     WRITE(*,*) last_half
 
+    parity_bool = len_is_even(in_int)
+    WRITE(*,*) parity_bool
     ! Set up variables
 
     ! Load file data (instructions) into variable as a singular string
