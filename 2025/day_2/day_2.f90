@@ -43,10 +43,13 @@ PROGRAM day_2
         t_ranges(i) = temp_range
     END DO
 
-    ! Sum the total number of IDs (number provided by previous step) and use it to allocate
-    !   space to an integer array, where the full list of IDs will be stored
+    id_count = 0
+    DO i=1, range_count
+        id_count = id_count + t_ranges(i) % id_count
+    END DO
+    ALLOCATE(ids(id_count))
 
-    ! Initalize integer variable to hold the solution to the puzzle.
+    invalid_id_sum = 0
 
     ! Check every ID for validity. If the ID is invalid, add it to the solution integer.
 
