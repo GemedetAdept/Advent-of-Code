@@ -10,7 +10,7 @@ MODULE mod_range
 
         INTEGER(KIND=8) :: id_start = 0
         INTEGER(KIND=8) :: id_end = 0
-        INTEGER :: id_count = 0
+        INTEGER(KIND=8) :: id_count = 0
 
         INTEGER(KIND=8), ALLOCATABLE :: range_ids(:)
     END TYPE t_range
@@ -86,9 +86,9 @@ CONTAINS
 
     SUBROUTINE populate_ids(in_t_range)
         TYPE(t_range) :: in_t_range
-        INTEGER :: i, id_iter
-        INTEGER :: in_id_start, in_id_count
-        INTEGER, ALLOCATABLE :: in_range_ids(:)
+        INTEGER(KIND=8) :: i, id_iter
+        INTEGER(KIND=8) :: in_id_start, in_id_count
+        INTEGER(KIND=8), ALLOCATABLE :: in_range_ids(:)
 
         in_id_start = in_t_range % id_start
         in_id_count = (in_t_range % id_count) + 1

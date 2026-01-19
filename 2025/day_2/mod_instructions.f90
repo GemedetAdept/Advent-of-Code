@@ -88,9 +88,10 @@ CONTAINS
         LOGICAL :: is_even
         LOGICAL :: parity_bool
 
+        ! Putting this here because I mixed them up: If an ID is odd in length, it can't be invalid.
         is_even = len_is_even(in_int)
         IF (is_even .EQV. .FALSE.) THEN
-            parity_bool = .FALSE.
+            parity_bool = .TRUE.
             RETURN
         END IF
         

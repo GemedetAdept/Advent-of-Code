@@ -10,7 +10,7 @@ PROGRAM day_2
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    INTEGER :: i
+    INTEGER(KIND=8) :: i, j
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: puzzle_input
     CHARACTER(LEN=1) :: split_comma, split_dash
@@ -18,13 +18,15 @@ PROGRAM day_2
     TYPE(t_split_string) :: split_input
     INTEGER :: range_count
     TYPE(t_range), ALLOCATABLE :: t_ranges(:)
+    TYPE(t_range) :: temp_range
     CHARACTER(LEN=:), ALLOCATABLE :: str_ranges(:)
     CHARACTER(LEN=:), ALLOCATABLE :: temp_range_str
-    TYPE(t_range) :: temp_range
     
-    INTEGER :: id_count
-    INTEGER, ALLOCATABLE :: ids(:)
-    INTEGER :: invalid_id_sum
+    INTEGER(KIND=8) :: id_count, temp_id_count
+    LOGICAL :: is_valid
+    INTEGER(KIND=8) :: temp_id
+    INTEGER(KIND=16) :: invalid_id_sum
+    INTEGER(KIND=8), ALLOCATABLE :: temp_ids(:)
 
     filename = "day_2_input.txt"
     puzzle_input = read_file_oneline(1, filename)
@@ -47,12 +49,26 @@ PROGRAM day_2
     DO i=1, range_count
         id_count = id_count + t_ranges(i) % id_count
     END DO
-    ALLOCATE(ids(id_count))
 
     invalid_id_sum = 0
+    DO i=1, range_count
+        temp_range = t_ranges(i)
+        temp_id_count = temp_range % id_count
+        ALLOCATE(temp_ids(temp_id_count))
 
-    ! Check every ID for validity. If the ID is invalid, add it to the solution integer.
+        temp_ids = temp_range % range_ids
+        DO j=1, temp_id_count
+            temp_id = temp_ids(j)
+            is_valid = id_is_valid(temp_id)
 
-    ! Per the puzzle on the Advent of Code website, this sum is the answer to the puzzle.
+            IF (is_valid .EQV. .FALSE.) THEN
+                invalid_id_sum = invalid_id_sum + temp_id
+            END IF
+        END DO
+
+        DEALLOCATE(temp_ids)
+    END DO
+
+    PRINT '("Sum of Invalid IDs = ", I0)', invalid_id_sum
 
 END PROGRAM day_2
