@@ -5,14 +5,15 @@ PROGRAM day_2
         get_string_len, get_split_count, get_range_count, get_range_len, get_split_indices, get_ranges
     USE mod_range, ONLY: t_range, init_range, &
         get_id_bounds, get_id_count, populate_ids
-    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, len_is_even
+    USE mod_instructions, ONLY: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, &
+        len_is_even, id_is_valid
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
     INTEGER(KIND=8) :: in_int, first_half, last_half
-    LOGICAL :: parity_bool
+    LOGICAL :: parity_bool, is_valid
 
-    in_int = 394530_8
+    in_int = 394094_8
     first_half = get_int_first_half(in_int)
     WRITE(*,*) first_half
     
@@ -21,6 +22,10 @@ PROGRAM day_2
 
     parity_bool = len_is_even(in_int)
     WRITE(*,*) parity_bool
+
+    is_valid = id_is_valid(in_int)
+    WRITE(*,*) is_valid
+
     ! Set up variables
 
     ! Load file data (instructions) into variable as a singular string

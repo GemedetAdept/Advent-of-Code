@@ -1,7 +1,8 @@
 MODULE mod_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, len_is_even
+    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half, &
+        len_is_even, id_is_valid
 
 CONTAINS
 
@@ -80,4 +81,27 @@ CONTAINS
             parity_bool = .FALSE.
         END IF
     END FUNCTION len_is_even
+
+    FUNCTION id_is_valid(in_int) RESULT(parity_bool)
+        INTEGER(KIND=8), INTENT(IN) :: in_int
+        INTEGER(KIND=8) :: first_half, last_half
+        LOGICAL :: is_even
+        LOGICAL :: parity_bool
+
+        is_even = len_is_even(in_int)
+        IF (is_even .EQV. .FALSE.) THEN
+            parity_bool = .FALSE.
+            RETURN
+        END IF
+        
+        first_half = get_int_first_half(in_int)
+        last_half = get_int_last_half(in_int)
+
+        IF (first_half .EQ. last_half) THEN
+            parity_bool = .FALSE.
+        ELSE
+            parity_bool = .TRUE.
+        END IF
+
+    END FUNCTION id_is_valid
 END MODULE mod_instructions
