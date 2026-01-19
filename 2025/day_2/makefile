@@ -4,7 +4,7 @@ src := $(filename).f90\
 	   mod_range.f90\
 	   mod_string_funcs.f90\
 	   mod_instructions.f90\
-	   mod_file_io.f90
+	   mod_fileio.f90
 debug_flags := -Og\
 			-Wall\
 			-Wextra\
