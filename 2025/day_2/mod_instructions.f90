@@ -1,7 +1,7 @@
 MODULE mod_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: string_to_int, get_int_len
+    PUBLIC :: string_to_int, int_to_string, get_int_len
 
 CONTAINS
 
@@ -12,6 +12,16 @@ CONTAINS
         READ(in_string, *) out_int
 
     END FUNCTION string_to_int
+
+    FUNCTION int_to_string(in_int) RESULT(out_string)
+        INTEGER, INTENT(IN) :: in_int
+        CHARACTER(LEN=:), ALLOCATABLE :: out_string
+
+        ALLOCATE(CHARACTER(LEN=50) :: out_string)
+
+        WRITE(out_string, *) in_int
+        out_string = ADJUSTL(out_string)
+    END FUNCTION int_to_string
 
     ! I found this neat and elegant way of getting the length of a number using the common logarithm
     !   from FadedCoder in this StackOverflow thread: https://stackoverflow.com/questions/2189800/how-to-find-length-of-digits-in-an-integer
