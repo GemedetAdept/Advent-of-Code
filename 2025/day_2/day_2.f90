@@ -6,6 +6,7 @@ PROGRAM day_2
     USE mod_range, ONLY: t_range, init_range, &
         get_id_bounds, get_id_count, populate_ids
     USE mod_instructions, ONLY: t_instructions, init_instructions
+    USE mod_file_io, ONLY: read_file_oneline
     IMPLICIT NONE
 
     ! <-- SETUP --> 
