@@ -10,7 +10,16 @@ PROGRAM day_2
     USE mod_fileio, ONLY: read_file_oneline
     IMPLICIT NONE
 
-    ! Set up variables
+    INTEGER :: i
+
+    CHARACTER(LEN=:), ALLOCATABLE :: filename
+    CHARACTER(LEN=:), ALLOCATABLE :: puzzle_input
+    TYPE(t_split_string) :: split_input
+    INTEGER :: range_count
+    TYPE(t_range), DIMENSION(:), ALLOCATABLE :: ranges
+    INTEGER :: id_count
+    INTEGER, DIMENSION(:), ALLOCATABLE :: ids
+    INTEGER :: invalid_id_sum
 
     ! Load file data (instructions) into variable as a singular string
 
