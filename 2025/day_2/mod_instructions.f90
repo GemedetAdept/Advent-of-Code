@@ -1,7 +1,7 @@
 MODULE mod_instructions
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half
+    PUBLIC :: string_to_int, int_to_string, get_int_len, get_int_first_half, get_int_last_half
 
 CONTAINS
 
@@ -42,10 +42,10 @@ CONTAINS
     ! https://www.c-sharpcorner.com/blogs/how-to-get-first-n-digits-of-a-number
     FUNCTION get_int_first_half(in_int) RESULT(first_half)
         INTEGER(KIND=8), INTENT(IN) :: in_int
-        REAL :: calc_step
         INTEGER :: int_len, half_len
         INTEGER(KIND=8) :: first_half
-
+        REAL :: calc_step
+        
         int_len = get_int_len(in_int)
         half_len = int_len / 2
         
@@ -55,4 +55,16 @@ CONTAINS
         first_half = INT(calc_step)
 
     END FUNCTION get_int_first_half
+
+    FUNCTION get_int_last_half(in_int) RESULT(last_half)
+        INTEGER(KIND=8), INTENT(IN) :: in_int
+        INTEGER(KIND=8) :: int_len, half_len
+        INTEGER(KIND=8) :: last_half
+
+        int_len = get_int_len(in_int)
+        half_len = int_len / 2
+        
+        last_half = MOD(in_int, 10**(half_len))
+
+    END FUNCTION get_int_last_half
 END MODULE mod_instructions
