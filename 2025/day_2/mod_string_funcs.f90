@@ -182,6 +182,7 @@ CONTAINS
             ranges(i) = tmp_char
         END DO
 
+        in_t_split % range_max_len = range_max_len
         in_t_split % ranges = ranges
     END SUBROUTINE get_ranges
 

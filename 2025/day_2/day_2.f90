@@ -11,19 +11,30 @@ PROGRAM day_2
     IMPLICIT NONE
 
     INTEGER :: i
-
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: puzzle_input
+    CHARACTER(LEN=1) :: split_comma, split_dash
+
     TYPE(t_split_string) :: split_input
     INTEGER :: range_count
-    TYPE(t_range), DIMENSION(:), ALLOCATABLE :: ranges
+    TYPE(t_range), ALLOCATABLE :: t_ranges(:)
+    CHARACTER(LEN=:), ALLOCATABLE :: char_ranges(:)
+    CHARACTER(LEN=:), ALLOCATABLE :: temp_range_str
+    TYPE(t_range) :: temp_range
+    
     INTEGER :: id_count
-    INTEGER, DIMENSION(:), ALLOCATABLE :: ids
+    INTEGER, ALLOCATABLE :: ids(:)
     INTEGER :: invalid_id_sum
 
-    ! Load file data (instructions) into variable as a singular string
+    filename = "day_2_input.txt"
+    puzzle_input = read_file_oneline(1, filename)
+    ! WRITE(*,*) puzzle_input
 
-    ! Split instructions string into array of string ranges
+    split_comma = ","
+    split_dash = "-"
+    split_input = init_split_string(puzzle_input, split_comma)
+    char_ranges = split_input % ranges
+    range_count = split_input % range_count
 
     ! Pass each range into a range object and load into an array of range objects
 
