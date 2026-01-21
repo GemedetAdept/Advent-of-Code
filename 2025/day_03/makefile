@@ -1,6 +1,9 @@
 build := gfortran
 filename := day_03
-src := $(filename).f90
+src := $(filename).f90\
+		mod_bank.f90\
+		mod_batt.f90\
+
 debug_flags := -Og\
 			-Wall\
 			-Wextra\
@@ -10,6 +13,7 @@ debug_flags := -Og\
 			-fbacktrace\
 			-pedantic\
 			-o
+			
 prod_flags := -O3\
 			-fimplicit-none\
 			-Wall\
