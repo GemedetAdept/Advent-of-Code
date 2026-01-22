@@ -1,10 +1,10 @@
 MODULE mod_fileio
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: read_file_oneline
+    PUBLIC :: file_readto_oneline
 CONTAINS
 
-    FUNCTION read_file_oneline(file_unit, filename) RESULT(buffer)
+    FUNCTION file_readto_oneline(file_unit, filename) RESULT(buffer)
         INTEGER, INTENT(IN) :: file_unit
         CHARACTER(LEN=:), ALLOCATABLE, INTENT(IN) :: filename
         CHARACTER(LEN=:), ALLOCATABLE :: buffer
@@ -25,6 +25,6 @@ CONTAINS
 
         buffer = TRIM(buffer)
 
-    END FUNCTION read_file_oneline
+    END FUNCTION file_readto_oneline
 
 END MODULE mod_fileio
