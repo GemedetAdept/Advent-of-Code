@@ -1,5 +1,5 @@
-# Advent-of-Code-2025
-Programs made for the 12 challenges of Advent of Code 2025
+# Advent of Code
+Programs made for the 12 challenges of the annual Advent of Code event.
 
 All of these programs are likely to be a hot mess, but if they work, they work.
 
