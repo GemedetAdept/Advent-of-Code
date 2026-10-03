@@ -1,5 +1,0 @@
-MODULE mod_batt
-    IMPLICIT NONE
-    PRIVATE
-
-END MODULE mod_batt
