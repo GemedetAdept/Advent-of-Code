@@ -2,67 +2,43 @@
 ! github.com/GemedetAdept
 
 PROGRAM day_03
+    USE mod_joltage, ONLY: total_output_joltage
     IMPLICIT NONE
 
-    INTEGER, PARAMETER :: bank_len = 100
     CHARACTER(LEN=:), ALLOCATABLE :: filename
-    CHARACTER(LEN=bank_len), ALLOCATABLE :: puzzle_input(:)
+    CHARACTER(LEN=100), ALLOCATABLE :: puzzle_input(:)
     INTEGER :: line_count = 0
-    INTEGER, DIMENSION(bank_len) :: current_bank
 
-    CHARACTER(LEN=1) :: battery_val, max_val
-    INTEGER :: battery_index, max_index
-    CHARACTER(LEN=:), ALLOCATABLE :: bank_out
-    INTEGER(KIND=8) :: bank_val
+    INTEGER :: i
+    INTEGER(KIND=8) :: toj_2 = 0
+    INTEGER(KIND=8) :: toj_12 = 0
 
-    INTEGER :: i, j, k, start, end
-    INTEGER :: battery_count
-    INTEGER(KIND=8) :: total_joltage = 0
+! https://stackoverflow.com/questions/58278488/how-to-read-a-text-file-containing-strings-into-an-array-in-fortran
 
     filename = "day_03_input.txt"
     OPEN(unit=1, FILE=filename)
-
-! https://stackoverflow.com/questions/58278488/how-to-read-a-text-file-containing-strings-into-an-array-in-fortran
 
     DO WHILE(i == 0)
         line_count = line_count + 1
         READ(1, *, iostat=i)
     END DO
+
     line_count = line_count - 1
+    ! For a reason unbeknownst to me, removing this WRITE statement breaks the program
+    WRITE(*,*) line_count
     ALLOCATE(puzzle_input(line_count))
 
     REWIND(1)
-
     DO i=1, line_count
         READ(1, "(A)") puzzle_input(i)
     END DO
+
     CLOSE(1)
 
-! Part II
-    battery_count = 12
-    ALLOCATE(CHARACTER(LEN=battery_count) :: bank_out)
+    toj_2 = total_output_joltage(puzzle_input, 2)
+    WRITE(*,*) toj_2
 
-    DO i=1, line_count
-        max_index = 0
-
-        DO j=1, battery_count
-            max_val = "0"
-
-            DO k=max_index+1, bank_len-(battery_count-j)
-                IF (puzzle_input(i)(k:k) > max_val) THEN
-                    max_val = puzzle_input(i)(k:k)
-                    max_index = k
-                END IF
-            END DO
-
-            bank_out(j:j) = max_val
-
-        END DO
-
-        READ(bank_out, "(I8)") bank_val
-        total_joltage = total_joltage + bank_val
-    END DO
-
-    WRITE(*,*) total_joltage
+    toj_12 = total_output_joltage(puzzle_input, 12)
+    WRITE(*,*) toj_12
 
 END PROGRAM day_03

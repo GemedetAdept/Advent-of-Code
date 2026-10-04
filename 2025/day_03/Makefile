@@ -1,7 +1,7 @@
 build := gfortran
 filename := day_03
-src := $(filename).f90
-# 	   mod_placeholder.f90
+src := $(filename).f90\
+	   mod_joltage.f90
 debug_flags := -Og\
 			-Wall\
 			-Wextra\
