@@ -18,7 +18,7 @@ CONTAINS
         INTEGER:: max_index = 0
 
         ALLOCATE(CHARACTER(LEN=battery_count) :: bank_out)
-        bank_len = LEN(arr_banks(1))
+        bank_len = 100
         total_joltage = 0
 
         DO i=1, SIZE(arr_banks)
@@ -37,7 +37,7 @@ CONTAINS
                 bank_out(j:j) = max_val
             END DO
 
-            READ(bank_out, "(I8)") bank_val
+            READ(bank_out, "(I12)") bank_val
             total_joltage = total_joltage + bank_val
         END DO        
     END FUNCTION total_output_joltage

@@ -13,7 +13,7 @@ PROGRAM day_03
     INTEGER(KIND=8) :: toj_2 = 0
     INTEGER(KIND=8) :: toj_12 = 0
 
-! https://stackoverflow.com/questions/58278488/how-to-read-a-text-file-containing-strings-into-an-array-in-fortran
+    WRITE(*,*) "Advent of Code 2025, Day 3"
 
     filename = "day_03_input.txt"
     OPEN(unit=1, FILE=filename)
@@ -24,8 +24,6 @@ PROGRAM day_03
     END DO
 
     line_count = line_count - 1
-    ! For a reason unbeknownst to me, removing this WRITE statement breaks the program
-    WRITE(*,*) line_count
     ALLOCATE(puzzle_input(line_count))
 
     REWIND(1)
@@ -35,10 +33,12 @@ PROGRAM day_03
 
     CLOSE(1)
 
+    WRITE(*,*) "Total Output Joltage, Pick 2 : "
     toj_2 = total_output_joltage(puzzle_input, 2)
-    WRITE(*,*) toj_2
+    WRITE(*,"(I8)") toj_2
 
+    WRITE(*,*) "Total Output Joltage, Pick 12: "
     toj_12 = total_output_joltage(puzzle_input, 12)
-    WRITE(*,*) toj_12
+    WRITE(*,"(I16)") toj_12
 
 END PROGRAM day_03
