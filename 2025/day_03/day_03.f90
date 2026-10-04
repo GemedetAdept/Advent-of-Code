@@ -10,11 +10,13 @@ PROGRAM day_03
     INTEGER :: line_count = 0
     INTEGER, DIMENSION(bank_len) :: current_bank
 
-    INTEGER :: jolt_val
-    INTEGER :: tens_value, tens_index, ones_value, ones_index
-    INTEGER :: bank_output
+    CHARACTER(LEN=1) :: battery_val, max_val
+    INTEGER :: battery_index, max_index
+    CHARACTER(LEN=:), ALLOCATABLE :: bank_out
+    INTEGER(KIND=8) :: bank_val
 
-    INTEGER :: i, j
+    INTEGER :: i, j, k, start, end
+    INTEGER :: battery_count
     INTEGER(KIND=8) :: total_joltage = 0
 
     filename = "day_03_input.txt"
@@ -36,42 +38,31 @@ PROGRAM day_03
     END DO
     CLOSE(1)
 
-    ! Total Output Joltage
+! Part II
+    battery_count = 12
+    ALLOCATE(CHARACTER(LEN=battery_count) :: bank_out)
+
     DO i=1, line_count
+        max_index = 0
 
-        ! Tens value
-        tens_value = 0
-        tens_index = 0
-        DO j=1, bank_len-1
-            READ(puzzle_input(i)(j:j), "(I3)") jolt_val
-            current_bank(j) = jolt_val
+        DO j=1, battery_count
+            max_val = "0"
 
-            IF (jolt_val > tens_value) THEN
-                tens_value = jolt_val
-                tens_index = j
-            END IF
+            DO k=max_index+1, bank_len-(battery_count-j)
+                IF (puzzle_input(i)(k:k) > max_val) THEN
+                    max_val = puzzle_input(i)(k:k)
+                    max_index = k
+                END IF
+            END DO
+
+            bank_out(j:j) = max_val
+
         END DO
 
-        ! Ones value
-        ones_value = 0
-        ones_index = 0
-        DO j=tens_index+1, bank_len
-            READ(puzzle_input(i)(j:j), "(I3)") jolt_val
-            current_bank(j) = jolt_val
-
-            IF (jolt_val > ones_value) THEN
-                ones_value = jolt_val
-                ones_index = j
-            END IF
-        END DO
-
-        bank_output = (tens_value*10) + ones_value
-        PRINT "(I3, ' > ', I2)", i, bank_output
-        total_joltage = total_joltage + bank_output
+        READ(bank_out, "(I8)") bank_val
+        total_joltage = total_joltage + bank_val
     END DO
 
-    PRINT "('Total Output Joltage =', I8)", total_joltage
-
-! Part II
+    WRITE(*,*) total_joltage
 
 END PROGRAM day_03
