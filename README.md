@@ -21,7 +21,7 @@ I would also like to add that I am aware of the many libraries already written f
 
 - [x] [Day 1](2025/day_1/) &rarr; *2025-12-22*
 - [x] [Day 2](2025/day_2/) &rarr; *2026-01-19*
-- [ ] Day 3
+- [x] [Day 3](2025/day_03/) &rarr; *2026-10-04*
 - [ ] Day 4
 - [ ] Day 5
 - [ ] Day 6
