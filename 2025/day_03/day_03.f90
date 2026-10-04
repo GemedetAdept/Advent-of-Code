@@ -72,4 +72,6 @@ PROGRAM day_03
 
     PRINT "('Total Output Joltage =', I8)", total_joltage
 
+! Part II
+
 END PROGRAM day_03
