@@ -1,6 +1,9 @@
 ! Memento mori, ut memento vivere
 ! github.com/GemedetAdept
 
+! Notes:
+!   There is likely a more elegant way of solving this, but I opted for checking the Moore Neighborhood of a cell
+
 PROGRAM day_04
     IMPLICIT NONE
 
@@ -10,19 +13,14 @@ PROGRAM day_04
     CHARACTER(LEN=1) :: puzzle_input(matrix_width, matrix_height)
     CHARACTER(LEN=matrix_width) :: buffer
 
-    INTEGER :: i, j, m, n, x, y
-    INTEGER :: atsign_dec, period_dec
-    INTEGER :: max_atsign
-    INTEGER :: moore_max, moore_sum
-
     INTEGER :: output
+    INTEGER :: i, j, m, n, x, y
+    INTEGER :: rolls_max, rolls_count
+    CHARACTER(LEN=1) :: char_roll, char_space
 
-    atsign_dec = ICHAR("@")
-    period_dec = ICHAR(".")
-    max_atsign = 3
-    moore_max = (atsign_dec * max_atsign) + (period_dec * (8-max_atsign))
-
-    WRITE(*,*) atsign_dec, period_dec, moore_max
+    char_roll = "@"
+    char_space = "."
+    rolls_max = 3
 
     filename = "day_04_input.txt"
     OPEN(unit=1, FILE=filename)
@@ -38,28 +36,32 @@ PROGRAM day_04
     DO i=1, matrix_height
     DO j=1, matrix_width
 
-        DO m=-1, 1
-        DO n=-1, 1
-            y = m+i
-            x = n+j
-            IF (y < 1 .OR. y > matrix_height .OR. x < 1 .OR. x > matrix_width) THEN
-                moore_sum = moore_sum + period_dec
-            ELSE IF (m == 0 .AND. n == 0) THEN
-                moore_sum = moore_sum + 0
-            ELSE IF (puzzle_input(y,x) == ".") THEN
-                moore_sum = moore_sum + period_dec
-            ELSE IF (puzzle_input(y,x) == "@") THEN
-                moore_sum = moore_sum + atsign_dec
-            END IF
-        END DO
-        END DO
+        rolls_count = 0
+        IF (puzzle_input(i, j) == char_roll) THEN
+            DO m=-1, 1
+            DO n=-1, 1
+                y = m+i
+                x = n+j
+                
+                IF (y <= 0 .OR. y > matrix_height) THEN
+                    CONTINUE
+                ELSE IF (x <= 0 .OR. x > matrix_width) THEN
+                    CONTINUE
+                ELSE IF (m == 0 .AND. n == 0) THEN
+                    CONTINUE
+                ELSE
+                    IF (puzzle_input(y, x) == char_roll) THEN
+                        rolls_count = rolls_count + 1
+                    END IF
+                END IF
 
-            IF (moore_sum <= moore_max) THEN
+            END DO
+            END DO
+
+            IF (rolls_count <= rolls_max) THEN
                 output = output + 1
             END IF
-
-            ! WRITE(*,*) i, j, moore_sum
-            moore_sum = 0
+        END IF
     END DO
     END DO
 
