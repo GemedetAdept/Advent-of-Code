@@ -1,23 +1,26 @@
 MODULE mod_moore
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: moore_rolls_check
+    PUBLIC :: rolls_check
 
 CONTAINS
-    FUNCTION moore_rolls_check(puzzle_input) RESULT (output)
+    FUNCTION rolls_check(puzzle_input, char_roll, rolls_max) RESULT (output)
         IMPLICIT NONE
 
         CHARACTER(LEN=1), DIMENSION(:,:) :: puzzle_input
+        CHARACTER(LEN=:), ALLOCATABLE :: buffer
         INTEGER :: matrix_height, matrix_width
         INTEGER :: rolls_max, rolls_count, output
 
         INTEGER :: i, j, m, n, x, y
         CHARACTER :: char_roll
 
-        char_roll = "@"
-        rolls_max = 3
+        output = 0
         matrix_height = SIZE(puzzle_input, 1)
         matrix_width = SIZE(puzzle_input, 2)
+
+        ALLOCATE(CHARACTER(LEN=matrix_width) :: buffer)
+        OPEN(2, FILE="puzzle_state.txt", POSITION="append", ACTION="write")
 
         DO i=1, matrix_height
         DO j=1, matrix_width
@@ -44,10 +47,24 @@ CONTAINS
                 END DO
 
                 IF (rolls_count <= rolls_max) THEN
+                    buffer(j:j) = "."
                     output = output + 1
+                ELSE
+                    buffer(j:j) = "@"
                 END IF
+            ELSE
+                buffer(j:j) = "."
             END IF
         END DO
+            WRITE(2,*) buffer
         END DO
-    END FUNCTION moore_rolls_check
+
+        CLOSE(2)
+    END FUNCTION rolls_check
+
+    ! FUNCTION recur_rolls_check
+    !     IMPLICIT NONE
+
+
+    ! END FUNCTION recur_rolls_check
 END MODULE mod_moore

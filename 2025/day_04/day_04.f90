@@ -5,7 +5,7 @@
 !   There is likely a more elegant way of solving this, but I opted for checking the Moore Neighborhood of a cell
 
 PROGRAM day_04
-    USE mod_moore, ONLY: moore_rolls_check
+    USE mod_moore, ONLY: rolls_check
     IMPLICIT NONE
 
     INTEGER, PARAMETER :: matrix_width = 137
@@ -15,11 +15,11 @@ PROGRAM day_04
     CHARACTER(LEN=matrix_width) :: buffer
 
     INTEGER :: output
-    INTEGER :: i, j, m, n, x, y
-    CHARACTER(LEN=8) :: moore_buffer
-    INTEGER :: rolls_max, rolls_count
+    INTEGER :: i, j
     CHARACTER(LEN=1) :: char_roll
+    INTEGER :: rolls_max
 
+    output = 0
     char_roll = "@"
     rolls_max = 3
 
@@ -36,8 +36,7 @@ PROGRAM day_04
 
     WRITE(*,*) "[Day 04, Part I]"
 
-    output = 0
-    output = moore_rolls_check(puzzle_input)
+    output = rolls_check(puzzle_input, char_roll, rolls_max)
     WRITE(*,*) "Total accessible rolls: ", output
 
 ! Day 04, Part II
