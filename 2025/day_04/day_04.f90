@@ -43,6 +43,8 @@ PROGRAM day_04
             y = m+i
             x = n+j
             IF (y < 1 .OR. y > matrix_height .OR. x < 1 .OR. x > matrix_width) THEN
+                moore_sum = moore_sum + period_dec
+            ELSE IF (m == 0 .AND. n == 0) THEN
                 moore_sum = moore_sum + 0
             ELSE IF (puzzle_input(y,x) == ".") THEN
                 moore_sum = moore_sum + period_dec
