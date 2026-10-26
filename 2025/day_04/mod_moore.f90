@@ -24,15 +24,18 @@ CONTAINS
             x = pos_x+j
             
             IF (y <= 0 .OR. y > grid_h) THEN
+                moore_arr(n:n) = "."
                 CONTINUE
             ELSE IF (x <= 0 .OR. x > grid_w) THEN
+                moore_arr(n:n) = "."
                 CONTINUE
             ELSE IF (i == 0 .AND. j == 0) THEN
                 CONTINUE
             ELSE
                 moore_arr(n:n) = grid_in(y, x)
-                n = n+1
             END IF
+            
+            n = n+1
         END DO
         END DO
         

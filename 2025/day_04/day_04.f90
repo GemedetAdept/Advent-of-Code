@@ -70,8 +70,6 @@ PROGRAM day_04
     WRITE(*,*) "[Day 04, Part I]"
     WRITE(*,*) "Total accessible rolls: ", output
 
-    WRITE(*,*) moore_check(puzzle_input, 3, 8)
-
 ! Day 04, Part II
 
 
