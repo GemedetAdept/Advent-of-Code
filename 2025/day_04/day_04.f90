@@ -5,7 +5,7 @@
 !   There is likely a more elegant way of solving this, but I opted for checking the Moore Neighborhood of a cell
 
 PROGRAM day_04
-    USE mod_moore, ONLY: moore_check
+    USE mod_moore, ONLY: moore_rolls_check
     IMPLICIT NONE
 
     INTEGER, PARAMETER :: matrix_width = 137
@@ -18,10 +18,9 @@ PROGRAM day_04
     INTEGER :: i, j, m, n, x, y
     CHARACTER(LEN=8) :: moore_buffer
     INTEGER :: rolls_max, rolls_count
-    CHARACTER(LEN=1) :: char_roll, char_space
+    CHARACTER(LEN=1) :: char_roll
 
     char_roll = "@"
-    char_space = "."
     rolls_max = 3
 
     filename = "day_04_input.txt"
@@ -34,40 +33,11 @@ PROGRAM day_04
             END DO
         END DO
     CLOSE(1)
-    
-! Day 04, Part I
-    DO i=1, matrix_height
-    DO j=1, matrix_width
-
-        rolls_count = 0
-        IF (puzzle_input(i, j) == char_roll) THEN
-            DO m=-1, 1
-            DO n=-1, 1
-                y = m+i
-                x = n+j
-                
-                IF (y <= 0 .OR. y > matrix_height) THEN
-                    CONTINUE
-                ELSE IF (x <= 0 .OR. x > matrix_width) THEN
-                    CONTINUE
-                ELSE IF (m == 0 .AND. n == 0) THEN
-                    CONTINUE
-                ELSE
-                    IF (puzzle_input(y, x) == char_roll) THEN
-                        rolls_count = rolls_count + 1
-                    END IF
-                END IF
-            END DO
-            END DO
-
-            IF (rolls_count <= rolls_max) THEN
-                output = output + 1
-            END IF
-        END IF
-    END DO
-    END DO
 
     WRITE(*,*) "[Day 04, Part I]"
+
+    output = 0
+    output = moore_rolls_check(puzzle_input)
     WRITE(*,*) "Total accessible rolls: ", output
 
 ! Day 04, Part II

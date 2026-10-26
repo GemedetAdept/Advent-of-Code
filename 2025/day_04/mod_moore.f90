@@ -1,43 +1,53 @@
 MODULE mod_moore
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: moore_check
+    PUBLIC :: moore_rolls_check
 
 CONTAINS
-    FUNCTION moore_check(grid_in, pos_y, pos_x) RESULT (moore_arr)
+    FUNCTION moore_rolls_check(puzzle_input) RESULT (output)
         IMPLICIT NONE
 
-        CHARACTER(LEN=1), INTENT(IN), DIMENSION(:,:) :: grid_in
-        INTEGER, INTENT(IN) :: pos_y, pos_x
+        CHARACTER(LEN=1), DIMENSION(:,:) :: puzzle_input
+        INTEGER :: matrix_height, matrix_width
+        INTEGER :: rolls_max, rolls_count, output
 
-        INTEGER :: i, j, y, x, n
-        INTEGER :: grid_h, grid_w
-        CHARACTER(LEN=8) :: moore_arr
+        INTEGER :: i, j, m, n, x, y
+        CHARACTER :: char_roll
 
-        grid_h = SIZE(grid_in, 1)
-        grid_w = SIZE(grid_in, 2)
+        char_roll = "@"
+        rolls_max = 3
+        matrix_height = SIZE(puzzle_input, 1)
+        matrix_width = SIZE(puzzle_input, 2)
 
-        n = 1
-        DO i=-1, 1
-        DO j=-1, 1
-            y = pos_y+i
-            x = pos_x+j
-            
-            IF (y <= 0 .OR. y > grid_h) THEN
-                moore_arr(n:n) = "."
-                CONTINUE
-            ELSE IF (x <= 0 .OR. x > grid_w) THEN
-                moore_arr(n:n) = "."
-                CONTINUE
-            ELSE IF (i == 0 .AND. j == 0) THEN
-                CONTINUE
-            ELSE
-                moore_arr(n:n) = grid_in(y, x)
+        DO i=1, matrix_height
+        DO j=1, matrix_width
+
+            rolls_count = 0
+            IF (puzzle_input(i, j) == char_roll) THEN
+                DO m=-1, 1
+                DO n=-1, 1
+                    y = m+i
+                    x = n+j
+                    
+                    IF (y <= 0 .OR. y > matrix_height) THEN
+                        CONTINUE
+                    ELSE IF (x <= 0 .OR. x > matrix_width) THEN
+                        CONTINUE
+                    ELSE IF (m == 0 .AND. n == 0) THEN
+                        CONTINUE
+                    ELSE
+                        IF (puzzle_input(y, x) == char_roll) THEN
+                            rolls_count = rolls_count + 1
+                        END IF
+                    END IF
+                END DO
+                END DO
+
+                IF (rolls_count <= rolls_max) THEN
+                    output = output + 1
+                END IF
             END IF
-            
-            n = n+1
         END DO
         END DO
-        
-    END FUNCTION moore_check
+    END FUNCTION moore_rolls_check
 END MODULE mod_moore
