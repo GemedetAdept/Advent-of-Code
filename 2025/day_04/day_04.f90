@@ -33,6 +33,7 @@ PROGRAM day_04
         END DO
     CLOSE(1)
     
+! Day 04, Part I
     DO i=1, matrix_height
     DO j=1, matrix_width
 
@@ -54,7 +55,6 @@ PROGRAM day_04
                         rolls_count = rolls_count + 1
                     END IF
                 END IF
-
             END DO
             END DO
 
@@ -65,6 +65,10 @@ PROGRAM day_04
     END DO
     END DO
 
+    WRITE(*,*) "[Day 04, Part I]"
     WRITE(*,*) "Total accessible rolls: ", output
+
+! Day 04, Part II
+
 
 END PROGRAM day_04
