@@ -1,7 +1,7 @@
 MODULE mod_parse
     IMPLICIT NONE
     PRIVATE
-    PUBLIC :: get_file_len, get_range_count
+    PUBLIC :: get_file_len
 
 CONTAINS
     FUNCTION get_file_len(filename) RESULT(out_file_len)
@@ -17,24 +17,4 @@ CONTAINS
             END DO
         CLOSE(1)
     END FUNCTION get_file_len
-
-    FUNCTION get_range_count(filename) RESULT (out_range_count)
-        CHARACTER(LEN=:), ALLOCATABLE :: filename
-        CHARACTER(LEN=1) :: buffer
-        INTEGER :: i, out_range_count
-        INTEGER :: ios = 0
-
-        OPEN(unit=1, file=filename)
-
-            i = 1
-            DO WHILE(ios == 0)
-                READ(1, '(A)', iostat=ios) buffer
-                IF (buffer == "") THEN
-                    out_range_count = i-1
-                    RETURN
-                END IF
-                i = i+1
-            END DO            
-        CLOSE(1)
-    END FUNCTION get_range_count
 END MODULE
