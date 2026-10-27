@@ -7,11 +7,14 @@ PROGRAM day_05
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer, id_buffer
-    CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input, ranges, ids
-    CHARACTER(LEN=:), DIMENSION(:,:), ALLOCATABLE :: range_pairs
+    CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input, ranges
+    INTEGER(KIND=8), DIMENSION(:), ALLOCATABLE :: ids
+    INTEGER(KIND=8), DIMENSION(:,:), ALLOCATABLE :: range_pairs
     INTEGER :: i, j, ios
     INTEGER :: file_len, range_count, id_count
     INTEGER :: max_id_len, max_range_len
+    INTEGER :: output
+    LOGICAL :: is_valid
 
     max_id_len = 15
     max_range_len = 1+(max_id_len * 2)
@@ -34,20 +37,36 @@ PROGRAM day_05
         END IF
     END DO
 
-    ALLOCATE(CHARACTER(LEN=max_range_len) :: range_pairs(range_count, 2))
+    ALLOCATE(range_pairs(range_count, 2))
     DO i=1, range_count
         range_buffer = input(i)
         DO j=1, max_range_len
             IF (range_buffer(j:j) == "-") THEN
-                range_pairs(i, 1) = range_buffer(:j-1)
-                range_pairs(i, 2) = range_buffer(j+1:)
+                READ(range_buffer(:j-1), "(I32)") range_pairs(i, 1)
+                READ(range_buffer(j+1:), "(I32)") range_pairs(i, 2)
             END IF
         END DO
     END DO
 
-    ALLOCATE(CHARACTER(LEN=max_range_len) :: ids(id_count))
+    ALLOCATE(ids(id_count))
     DO i=1, id_count
-        ids(i) = input((range_count+1)+i)
+        READ(input((range_count+1)+i), "(I32)") ids(i)
     END DO
+
+    output = 0
+    DO i=1, id_count
+        is_valid = .FALSE.
+
+        DO j=1, range_count
+            IF (ids(i) >= range_pairs(j, 1) .AND. ids(i) <= range_pairs(j, 2)) THEN
+                is_valid = .TRUE.
+            END IF
+        END DO
+
+        IF (is_valid) output = output+1
+    END DO
+
+    WRITE(*,*) "[Day 05, Part I]"
+    WRITE(*,*) "Total valid IDs: ", output
 
 END PROGRAM day_05
