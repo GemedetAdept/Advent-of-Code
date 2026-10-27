@@ -5,7 +5,7 @@
 !   There is likely a more elegant way of solving this, but I opted for checking the Moore Neighborhood of a cell
 
 PROGRAM day_04
-    USE mod_moore, ONLY: rolls_check
+    USE mod_moore, ONLY: rolls_check, recur_rolls_check
     IMPLICIT NONE
 
     INTEGER, PARAMETER :: matrix_width = 137
@@ -38,8 +38,11 @@ PROGRAM day_04
 
     output = rolls_check(puzzle_input, char_roll, rolls_max)
     WRITE(*,*) "Total accessible rolls: ", output
+    WRITE(*,*) ""
 
 ! Day 04, Part II
-
+    WRITE(*,*) "[Day 04, Part II]"
+    output = recur_rolls_check(puzzle_input, char_roll, rolls_max, 0)
+    WRITE(*,*) "Total recursively accessible rolls: ", output
 
 END PROGRAM day_04
