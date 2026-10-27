@@ -8,6 +8,7 @@ PROGRAM day_05
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer, id_buffer
     CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input, ranges, ids
+    CHARACTER(LEN=:), DIMENSION(:,:), ALLOCATABLE :: range_pairs
     INTEGER :: i, j, ios
     INTEGER :: file_len, range_count, id_count
     INTEGER :: max_id_len, max_range_len
@@ -33,9 +34,15 @@ PROGRAM day_05
         END IF
     END DO
 
-    ALLOCATE(CHARACTER(LEN=max_range_len) :: ranges(range_count))
+    ALLOCATE(CHARACTER(LEN=max_range_len) :: range_pairs(range_count, 2))
     DO i=1, range_count
-        ranges(i) = input(i)
+        range_buffer = input(i)
+        DO j=1, max_range_len
+            IF (range_buffer(j:j) == "-") THEN
+                range_pairs(i, 1) = range_buffer(:j-1)
+                range_pairs(i, 2) = range_buffer(j+1:)
+            END IF
+        END DO
     END DO
 
     ALLOCATE(CHARACTER(LEN=max_range_len) :: ids(id_count))
