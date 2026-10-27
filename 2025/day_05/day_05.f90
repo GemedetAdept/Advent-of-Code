@@ -2,24 +2,26 @@
 ! github.com/GemedetAdept
 
 PROGRAM day_05
-    USE mod_parse, ONLY: get_file_len
+    USE mod_parse, ONLY: get_file_len, get_range_count
     IMPLICIT NONE
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer, id_buffer
-    CHARACTER(LEN=:), DIMENSION(:,:), ALLOCATABLE :: ranges, ids
-    INTEGER :: file_len, ios, max_id_len, max_range_len
+    ! CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input
+    ! CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: ranges, ids
+    ! INTEGER :: i, ios
+    INTEGER :: file_len, range_count, id_count
+    INTEGER :: max_id_len, max_range_len
 
     max_id_len = 15
     max_range_len = 1+(max_id_len * 2)
 
-    ALLOCATE(CHARACTER(LEN=max_range_len) :: range_buffer)
-    ALLOCATE(CHARACTER(LEN=max_id_len) :: id_buffer)
-    ALLOCATE(CHARACTER(LEN=max_range_len) :: buffer)
-
-
     filename = "day_05_input.txt"
     file_len = get_file_len(filename)
-    WRITE(*,*) file_len
+    range_count = get_range_count(filename)
+    id_count = file_len - (1 + range_count)
+
+    ALLOCATE(CHARACTER(LEN=max_range_len) :: buffer)
+
 
 END PROGRAM day_05

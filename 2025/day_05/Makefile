@@ -13,7 +13,6 @@ debug_flags := -Og\
 			-o
 prod_flags := -O3\
 			-fimplicit-none\
-			-Wall\
 			-g\
 			-o
 
