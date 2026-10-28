@@ -4,17 +4,20 @@
 PROGRAM day_05
     USE mod_parse, ONLY: get_file_len
     IMPLICIT NONE
+    INTEGER, PARAMETER :: I32 = selected_int_kind(32)
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename
     CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer, id_buffer
     CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input, ranges
-    INTEGER(KIND=8), DIMENSION(:), ALLOCATABLE :: ids
-    INTEGER(KIND=8), DIMENSION(:,:), ALLOCATABLE :: range_pairs
-    INTEGER :: i, j, ios
-    INTEGER :: file_len, range_count, id_count
-    INTEGER :: max_id_len, max_range_len
+    INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: ids, valid_ids, tmp
+    INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: range_pairs
+    INTEGER :: i, j, k, ios
+    INTEGER :: file_len, id_count
+    INTEGER :: range_count, range_size, tmp_size
+    INTEGER(KIND=I32) :: range_lo, range_hi, tmp_lo, tmp_hi, overlap
+    INTEGER :: max_id_len, max_range_len, valid_ids_len
     INTEGER :: output
-    LOGICAL :: is_valid
+    LOGICAL :: is_valid, is_unique
 
     max_id_len = 15
     max_range_len = 1+(max_id_len * 2)
@@ -68,5 +71,32 @@ PROGRAM day_05
 
     WRITE(*,*) "[Day 05, Part I]"
     WRITE(*,*) "Total valid IDs: ", output
+
+! Part II
+
+    output = 0
+    DO i=1, range_count
+        range_lo = range_pairs(i, 1)
+        range_hi = range_pairs(i, 2)
+
+        range_size = (range_hi - range_lo) + 1
+
+        IF (i == 1) THEN
+            output = output + range_size
+            CYCLE
+        END IF
+
+        DO j=1, range_count
+            IF (j == i) EXIT
+
+            tmp_lo = range_pairs(j, 1)
+            tmp_hi = range_pairs(j, 2)
+            tmp_size = (tmp_hi - tmp_lo) + 1
+
+            overlap = (range_size + tmp_size) - (ABS(tmp_hi-range_lo) + ABS(tmp_lo-range_hi))
+            WRITE(*,*) i, j, overlap
+        END DO
+    END DO
+    
 
 END PROGRAM day_05
