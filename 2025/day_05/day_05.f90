@@ -13,10 +13,10 @@ PROGRAM day_05
     INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: range_pairs
     INTEGER :: i, j, k, ios
     INTEGER :: file_len, id_count
-    INTEGER :: range_count, range_size, tmp_size
-    INTEGER(KIND=I32) :: range_lo, range_hi, tmp_lo, tmp_hi, overlap
+    INTEGER :: range_count, range_size
+    INTEGER(KIND=I32) :: range_lo, range_hi
     INTEGER :: max_id_len, max_range_len, valid_ids_len
-    INTEGER :: output
+    INTEGER(KIND=I32) :: output
     LOGICAL :: is_valid, is_unique
 
     max_id_len = 15
@@ -70,33 +70,27 @@ PROGRAM day_05
     END DO
 
     WRITE(*,*) "[Day 05, Part I]"
-    WRITE(*,*) "Total valid IDs: ", output
+    WRITE(*,*) "Total IDs within range: ", output
 
 ! Part II
+! It turns out that I had just assumed that there might be overlapping ranges, but there aren't any
+! So I spent a good while devising a way to check if the ranges overlap just using the range bounds
+! Meaning I've been making this part of the puzzle much more difficult for myself
 
     output = 0
+    range_lo = 0_i32
+    range_hi = 0_i32
+    range_size = 0_i32
     DO i=1, range_count
         range_lo = range_pairs(i, 1)
         range_hi = range_pairs(i, 2)
 
-        range_size = (range_hi - range_lo) + 1
+        range_size = range_hi - range_lo + 1
+        range_size = ABS(range_size)
 
-        IF (i == 1) THEN
-            output = output + range_size
-            CYCLE
-        END IF
-
-        DO j=1, range_count
-            IF (j == i) EXIT
-
-            tmp_lo = range_pairs(j, 1)
-            tmp_hi = range_pairs(j, 2)
-            tmp_size = (tmp_hi - tmp_lo) + 1
-
-            overlap = (range_size + tmp_size) - (ABS(tmp_hi-range_lo) + ABS(tmp_lo-range_hi))
-            WRITE(*,*) i, j, overlap
-        END DO
+        output = output + range_size
     END DO
     
-
+    WRITE(*,*) "[Day 05, Part II]"
+    WRITE(*,*) "Total amount of valid IDs: ", output
 END PROGRAM day_05
