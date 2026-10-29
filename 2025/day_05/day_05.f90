@@ -7,17 +7,17 @@ PROGRAM day_05
     INTEGER, PARAMETER :: I32 = selected_int_kind(32)
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename
-    CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer, id_buffer
-    CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input, ranges
-    INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: ids, valid_ids, tmp
+    CHARACTER(LEN=:), ALLOCATABLE :: buffer, range_buffer
+    CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input
+    INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: ids
     INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: range_pairs
+    INTEGER(KIND=I32) :: range_lo, range_hi, tmp, tmp_lo, tmp_hi
+    INTEGER(KIND=I32) :: output
+    INTEGER :: range_count, range_size, tmp_size, overlap
     INTEGER :: i, j, k, ios
     INTEGER :: file_len, id_count
-    INTEGER :: range_count, range_size
-    INTEGER(KIND=I32) :: range_lo, range_hi
-    INTEGER :: max_id_len, max_range_len, valid_ids_len
-    INTEGER(KIND=I32) :: output
-    LOGICAL :: is_valid, is_unique
+    INTEGER :: max_id_len, max_range_len
+    LOGICAL :: is_valid
 
     max_id_len = 15
     max_range_len = 1+(max_id_len * 2)
@@ -73,24 +73,60 @@ PROGRAM day_05
     WRITE(*,*) "Total IDs within range: ", output
 
 ! Part II
-! It turns out that I had just assumed that there might be overlapping ranges, but there aren't any
-! So I spent a good while devising a way to check if the ranges overlap just using the range bounds
-! Meaning I've been making this part of the puzzle much more difficult for myself
-
     output = 0
-    range_lo = 0_i32
-    range_hi = 0_i32
-    range_size = 0_i32
     DO i=1, range_count
-        range_lo = range_pairs(i, 1)
-        range_hi = range_pairs(i, 2)
+        IF (range_pairs(i, 1) > range_pairs(i, 2)) THEN
+            tmp = range_pairs(i,1)
+            range_pairs(i,1) = range_pairs(i,2)
+            range_pairs(i,2) = tmp
+        END IF
 
+        range_lo = range_pairs(i,1)
+        range_hi = range_pairs(i,2)
         range_size = range_hi - range_lo + 1
         range_size = ABS(range_size)
+        
+        IF (i == 1) THEN
+            output = output + range_size
+            CYCLE
+        END IF
 
+        DO j=1, range_count
+            IF (j >= i) CYCLE
+
+            tmp_lo = range_pairs(j, 1)
+            tmp_hi = range_pairs(j, 2)
+            tmp_size = tmp_hi - tmp_lo + 1
+            tmp_size = ABS(tmp_size)
+
+            IF (range_lo == tmp_lo .AND. range_hi == tmp_hi) THEN
+                overlap = range_size
+            ! No overlap, target above
+            ELSE IF (range_lo < tmp_lo .AND. range_lo < tmp_hi .AND. range_hi < tmp_lo .AND. range_hi < tmp_hi) THEN
+                overlap = 0
+            ! No overlap, target below
+            ELSE IF (range_lo > tmp_lo .AND. range_lo > tmp_hi .AND. range_hi > tmp_lo .AND. range_hi > tmp_hi) THEN
+                overlap = 0
+            ! Overlap, target above
+            ELSE IF (range_lo <= tmp_lo .AND. range_lo < tmp_hi .AND. range_hi >= tmp_lo .AND. range_hi <= tmp_hi) THEN
+                overlap = range_hi-tmp_lo + 1
+            ! Overlap, target below
+            ELSE IF (range_lo >= tmp_lo .AND. range_lo <= tmp_hi .AND. range_hi > tmp_lo .AND. range_hi >= tmp_hi) THEN
+                overlap = tmp_hi-range_lo + 1
+            ! Current range inside target range
+            ELSE IF (range_lo > tmp_lo .AND. range_hi < tmp_hi) THEN
+                overlap = range_size
+            ! Target range inside current range
+            ELSE IF (range_lo < tmp_lo .AND. range_hi > tmp_hi) THEN
+                overlap = tmp_size
+            END IF
+
+            range_size = range_size - ABS(overlap)
+        END DO
+
+        IF (range_size <= 0) CYCLE
         output = output + range_size
     END DO
-    
-    WRITE(*,*) "[Day 05, Part II]"
-    WRITE(*,*) "Total amount of valid IDs: ", output
+
+    WRITE(*,*) output
 END PROGRAM day_05
