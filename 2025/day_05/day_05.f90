@@ -13,7 +13,7 @@ PROGRAM day_05
     INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: ids
     INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: range_pairs
     INTEGER(KIND=I32), DIMENSION(1,2) :: tmp_pair
-    INTEGER(KIND=I32) :: range_lo, range_hi, tmp, tmp_lo, tmp_hi
+    INTEGER(KIND=I32) :: range_lo, range_hi, tmp, tmp_lo, tmp_hi, min_id, max_id
     INTEGER(KIND=I32) :: output
     INTEGER :: range_count, range_size, tmp_size, overlap
     INTEGER :: i, j, k, ios
@@ -75,14 +75,38 @@ PROGRAM day_05
     WRITE(*,*) "Total IDs within range: ", output
 
 ! Part II
-    output = 0
-
     CALL sort_pairs(range_pairs)
     CALL insertion_sort(range_pairs, 2)
     CALL insertion_sort(range_pairs, 1)
 
     DO i=1, range_count
+        IF (i <= 1) CYCLE
+    DO j=1, range_count
+        IF (j >= i .OR. j == 0) CYCLE
+
+        range_lo = range_pairs(i,1)
+        range_hi = range_pairs(i,2)
+        tmp_lo = range_pairs(j,1)
+        tmp_hi = range_pairs(j,2)
+
+        min_id = MIN(range_lo, tmp_lo)
+        max_id = MAX(range_hi, tmp_hi)
+        
+        IF (min_id == 0) CYCLE
+        IF (tmp_hi >= range_lo-1) THEN
+            range_pairs(i,:) = [min_id, max_id]
+            range_pairs(j,:) = [0,0]
+        END IF 
+    END DO
+    END DO
+
+    DO i=1, range_count
         WRITE(*,*) i, range_pairs(i,1), range_pairs(i,2)
+    END DO
+
+    output = 0
+    DO i=1, range_count
+        output = output + (range_pairs(i,2) - range_pairs(i,1) + 1)
     END DO
 
     WRITE(*,*) output
