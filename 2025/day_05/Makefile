@@ -2,7 +2,8 @@ build := gfortran
 filename := day_05
 src := $(filename).f90\
 		mod_parse.f90\
-		mod_sort.f90
+		mod_sort.f90\
+		mod_merge.f90
 debug_flags := -Og\
 			-Wall\
 			-Wextra\
