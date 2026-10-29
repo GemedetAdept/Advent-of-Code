@@ -17,4 +17,4 @@ CONTAINS
             END DO
         CLOSE(1)
     END FUNCTION get_file_len
-END MODULE
+END MODULE mod_parse

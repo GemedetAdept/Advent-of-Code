@@ -3,6 +3,7 @@
 
 PROGRAM day_05
     USE mod_parse, ONLY: get_file_len
+    USE mod_sort, ONLY: insertion_sort, sort_pairs
     IMPLICIT NONE
     INTEGER, PARAMETER :: I32 = selected_int_kind(32)
 
@@ -76,29 +77,9 @@ PROGRAM day_05
 ! Part II
     output = 0
 
-    ! Ensuring that pairs have the lower bound come first
-    DO i=1, range_count
-        IF (range_pairs(i,1) > range_pairs(i,2)) THEN
-            tmp = range_pairs(i,1)
-            range_pairs(i,1) = range_pairs(i,2)
-            range_pairs(i,2) = tmp
-        END IF
-    END DO
-
-    ! Sorting range pairs by lower bound from least to greatest
-    DO i=1, range_count
-        IF (i == 1) CYCLE
-
-        DO j=1, range_count
-            IF (j >= i) CYCLE
-
-            IF (range_pairs(i,1) < range_pairs(j,1)) THEN
-                tmp_pair(1,:) = range_pairs(i,:)
-                range_pairs(i,:) = range_pairs(j,:)
-                range_pairs(j,:) = tmp_pair(1,:)
-            END IF
-        END DO
-    END DO
+    CALL sort_pairs(range_pairs)
+    CALL insertion_sort(range_pairs, 2)
+    CALL insertion_sort(range_pairs, 1)
 
     DO i=1, range_count
         WRITE(*,*) i, range_pairs(i,1), range_pairs(i,2)
