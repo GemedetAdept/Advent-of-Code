@@ -11,6 +11,7 @@ PROGRAM day_05
     CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: input
     INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: ids
     INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: range_pairs
+    INTEGER(KIND=I32), DIMENSION(1,2) :: tmp_pair
     INTEGER(KIND=I32) :: range_lo, range_hi, tmp, tmp_lo, tmp_hi
     INTEGER(KIND=I32) :: output
     INTEGER :: range_count, range_size, tmp_size, overlap
@@ -75,6 +76,33 @@ PROGRAM day_05
 ! Part II
     output = 0
 
+    ! Ensuring that pairs have the lower bound come first
+    DO i=1, range_count
+        IF (range_pairs(i,1) > range_pairs(i,2)) THEN
+            tmp = range_pairs(i,1)
+            range_pairs(i,1) = range_pairs(i,2)
+            range_pairs(i,2) = tmp
+        END IF
+    END DO
+
+    ! Sorting range pairs by lower bound from least to greatest
+    DO i=1, range_count
+        IF (i == 1) CYCLE
+
+        DO j=1, range_count
+            IF (j >= i) CYCLE
+
+            IF (range_pairs(i,1) < range_pairs(j,1)) THEN
+                tmp_pair(1,:) = range_pairs(i,:)
+                range_pairs(i,:) = range_pairs(j,:)
+                range_pairs(j,:) = tmp_pair(1,:)
+            END IF
+        END DO
+    END DO
+
+    DO i=1, range_count
+        WRITE(*,*) i, range_pairs(i,1), range_pairs(i,2)
+    END DO
 
     WRITE(*,*) output
 END PROGRAM day_05
