@@ -74,59 +74,7 @@ PROGRAM day_05
 
 ! Part II
     output = 0
-    DO i=1, range_count
-        IF (range_pairs(i, 1) > range_pairs(i, 2)) THEN
-            tmp = range_pairs(i,1)
-            range_pairs(i,1) = range_pairs(i,2)
-            range_pairs(i,2) = tmp
-        END IF
 
-        range_lo = range_pairs(i,1)
-        range_hi = range_pairs(i,2)
-        range_size = range_hi - range_lo + 1
-        range_size = ABS(range_size)
-        
-        IF (i == 1) THEN
-            output = output + range_size
-            CYCLE
-        END IF
-
-        DO j=1, range_count
-            IF (j >= i) CYCLE
-
-            tmp_lo = range_pairs(j, 1)
-            tmp_hi = range_pairs(j, 2)
-            tmp_size = tmp_hi - tmp_lo + 1
-            tmp_size = ABS(tmp_size)
-
-            IF (range_lo == tmp_lo .AND. range_hi == tmp_hi) THEN
-                overlap = range_size
-            ! No overlap, target above
-            ELSE IF (range_lo < tmp_lo .AND. range_lo < tmp_hi .AND. range_hi < tmp_lo .AND. range_hi < tmp_hi) THEN
-                overlap = 0
-            ! No overlap, target below
-            ELSE IF (range_lo > tmp_lo .AND. range_lo > tmp_hi .AND. range_hi > tmp_lo .AND. range_hi > tmp_hi) THEN
-                overlap = 0
-            ! Overlap, target above
-            ELSE IF (range_lo <= tmp_lo .AND. range_lo < tmp_hi .AND. range_hi >= tmp_lo .AND. range_hi <= tmp_hi) THEN
-                overlap = range_hi-tmp_lo + 1
-            ! Overlap, target below
-            ELSE IF (range_lo >= tmp_lo .AND. range_lo <= tmp_hi .AND. range_hi > tmp_lo .AND. range_hi >= tmp_hi) THEN
-                overlap = tmp_hi-range_lo + 1
-            ! Current range inside target range
-            ELSE IF (range_lo > tmp_lo .AND. range_hi < tmp_hi) THEN
-                overlap = range_size
-            ! Target range inside current range
-            ELSE IF (range_lo < tmp_lo .AND. range_hi > tmp_hi) THEN
-                overlap = tmp_size
-            END IF
-
-            range_size = range_size - ABS(overlap)
-        END DO
-
-        IF (range_size <= 0) CYCLE
-        output = output + range_size
-    END DO
 
     WRITE(*,*) output
 END PROGRAM day_05
