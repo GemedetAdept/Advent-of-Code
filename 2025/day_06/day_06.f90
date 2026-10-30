@@ -2,6 +2,7 @@
 ! github.com/GemedetAdept
 
 PROGRAM day_06
+    USE mod_util, ONLY: is_numeral
     IMPLICIT NONE
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename, buffer
