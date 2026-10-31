@@ -2,12 +2,12 @@
 ! github.com/GemedetAdept
 
 PROGRAM day_06
-    USE mod_util, ONLY: is_numeral
+    USE mod_util, ONLY: is_numeral, is_space
     IMPLICIT NONE
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename, buffer
     CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: matrix
-    CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE :: matrix_op
+    CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE :: matrix_ops
     INTEGER, DIMENSION(:,:), ALLOCATABLE :: matrix_int
     CHARACTER(LEN=1), DIMENSION(:,:), ALLOCATABLE :: input
     INTEGER :: i, j, k, ios
@@ -46,14 +46,14 @@ PROGRAM day_06
     DO i=1, input_width
         IF (i == 1) CYCLE
 
-        IF (.NOT. is_numeral(input(i-1,1)) .AND. is_numeral(input(i,1))) THEN
+        IF (is_space(input(i-1,1)) .AND. is_numeral(input(i,1))) THEN
              col_count = col_count+1
         END IF
     END DO
 
     WRITE(*,*) col_count
     ALLOCATE(matrix_int(col_count, input_height-1))
-    ALLOCATE(matrix_op(col_count))
+    ALLOCATE(matrix_ops(col_count))
 
     tmp_int = 0
     buffer = ""
@@ -67,7 +67,7 @@ PROGRAM day_06
 
         IF (is_numeral(tmp_char)) THEN
             buffer = buffer // tmp_char
-        ELSE IF (.NOT. is_numeral(tmp_char) .AND. is_numeral(input(j-1,i))) THEN
+        ELSE IF (is_space(tmp_char) .AND. is_numeral(input(j-1,i))) THEN
             READ(buffer, "(I4)") tmp_int
             matrix_int(k, i) = tmp_int
 
@@ -79,5 +79,16 @@ PROGRAM day_06
     END DO
     END DO
 
-    WRITE(*,*) (matrix_int(:,i), i=1, SIZE(matrix_int, 2))
+    k=1
+    DO i=1, input_width
+        IF (k > col_count) CYCLE
+        tmp_char = input(i,input_height)
+
+        IF (.NOT. is_space(tmp_char)) THEN
+            matrix_ops(k) = tmp_char
+            k = k+1
+        END IF
+    END DO
+
+    
 END PROGRAM day_06
