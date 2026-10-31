@@ -4,16 +4,18 @@
 PROGRAM day_06
     USE mod_util, ONLY: is_numeral, is_space
     IMPLICIT NONE
+    INTEGER, PARAMETER :: I32 = selected_int_kind(32)
 
     CHARACTER(LEN=:), ALLOCATABLE :: filename, buffer
     CHARACTER(LEN=:), DIMENSION(:), ALLOCATABLE :: matrix
+    INTEGER(KIND=I32), DIMENSION(:,:), ALLOCATABLE :: matrix_int
     CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE :: matrix_ops
-    INTEGER, DIMENSION(:,:), ALLOCATABLE :: matrix_int
+    INTEGER(KIND=I32), DIMENSION(:), ALLOCATABLE :: matrix_sums ! matrix_sums_and_products seemed a touch too long, though more accurate
     CHARACTER(LEN=1), DIMENSION(:,:), ALLOCATABLE :: input
     INTEGER :: i, j, k, ios
     INTEGER :: file_len, input_height, input_width, col_count
-    INTEGER :: tmp_int
-    CHARACTER :: tmp_char
+    INTEGER(KIND=I32) :: tmp_int, sum, output
+    CHARACTER :: tmp_char, oper
 
     input_height = 5
     
@@ -51,9 +53,9 @@ PROGRAM day_06
         END IF
     END DO
 
-    WRITE(*,*) col_count
     ALLOCATE(matrix_int(col_count, input_height-1))
     ALLOCATE(matrix_ops(col_count))
+    ALLOCATE(matrix_sums(col_count))
 
     tmp_int = 0
     buffer = ""
@@ -90,5 +92,38 @@ PROGRAM day_06
         END IF
     END DO
 
-    
+    oper = ""
+    sum = 0_i32
+    k = 997
+    DO i=1, col_count
+        oper = matrix_ops(i)
+        DO j=1, input_height-1
+            IF (j == 1) THEN
+                sum = matrix_int(i,j)
+                CYCLE
+            END IF
+
+            SELECT CASE(oper)
+            CASE("+")
+                sum = sum + matrix_int(i,j)
+            CASE("*")
+                IF (sum == 0) THEN 
+                    sum = matrix_int(i,j)
+                ELSE IF (sum /= 0) THEN
+                    sum = sum * matrix_int(i,j)
+                END IF
+            END SELECT
+        END DO
+
+        matrix_sums(i) = sum
+        sum = 0_i32
+    END DO
+
+    output = 0_i32
+    DO i=1, col_count
+        output = output + matrix_sums(i)
+    END DO
+
+    PRINT "(A8)", "[Day 06]"
+    PRINT "(A30, I32)", "Total sum of cephalopod math: ", output
 END PROGRAM day_06
