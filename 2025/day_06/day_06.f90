@@ -55,19 +55,29 @@ PROGRAM day_06
     ALLOCATE(matrix_int(col_count, input_height-1))
     ALLOCATE(matrix_op(col_count))
 
-    k=1
     tmp_int = 0
     buffer = ""
     DO i=1, input_height-1
-    DO j=1, col_count
-        tmp_char = input(k,i)
+
+    k=1
+    DO j=1, input_width
+        IF (k > col_count) CYCLE
+        
+        tmp_char = input(j,i)
 
         IF (is_numeral(tmp_char)) THEN
             buffer = buffer // tmp_char
-        ELSE IF (.NOT. is_numeral(tmp_char) .AND. is_numeral(input(k-1,i))) THEN
+        ELSE IF (.NOT. is_numeral(tmp_char) .AND. is_numeral(input(j-1,i))) THEN
             READ(buffer, "(I4)") tmp_int
+            matrix_int(k, i) = tmp_int
 
+            k = k+1
+            buffer = ""
+        ELSE
+            CYCLE
         END IF
     END DO
     END DO
+
+    WRITE(*,*) (matrix_int(:,i), i=1, SIZE(matrix_int, 2))
 END PROGRAM day_06
