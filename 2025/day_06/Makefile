@@ -2,7 +2,8 @@ build := gfortran
 filename := day_06
 src := $(filename).f90\
 		mod_util.f90\
-		mod_parse.f90
+		mod_parse.f90\
+		mod_advent.f90
 debug_flags := -Og\
 			-Wall\
 			-Wextra\

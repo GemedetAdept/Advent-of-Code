@@ -1,6 +1,6 @@
 MODULE mod_util
     IMPLICIT NONE
-    PUBLIC :: is_numeral, is_space, sum_i32, product_i32
+    PUBLIC :: is_numeral, is_space, is_operator, sum_i32, product_i32
 CONTAINS
     FUNCTION is_numeral(in_char) RESULT(out_bool)
         CHARACTER(LEN=1) :: in_char
@@ -27,6 +27,20 @@ CONTAINS
             RETURN
         END IF
     END FUNCTION is_space
+
+    FUNCTION is_operator(in_char) RESULT(out_bool)
+        CHARACTER(LEN=1) :: in_char
+        CHARACTER(LEN=1), DIMENSION(4), PARAMETER :: operators = ["+","-","*","/"]
+        INTEGER :: i
+        LOGICAL :: out_bool
+
+        out_bool = .FALSE.
+        DO i=1, SIZE(operators)
+            IF (in_char == operators(i)) out_bool = .TRUE.
+        END DO
+
+        RETURN
+    END FUNCTION is_operator
 
     FUNCTION sum_i32(in_arr) RESULT(out_sum)
         INTEGER, PARAMETER :: I32 = selected_int_kind(32)
